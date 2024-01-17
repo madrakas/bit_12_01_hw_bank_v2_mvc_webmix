@@ -1,0 +1,1 @@
+<h1 style="color:<?= $homeColor ?>">Nauji namai <?= $homeNumber ?></h1>
