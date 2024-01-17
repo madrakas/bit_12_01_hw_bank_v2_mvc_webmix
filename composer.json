@@ -1,0 +1,17 @@
+{
+    "name": "arvydas/bank2",
+    "description": "OOP bank",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Bank\\" : ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Arvydas",
+            "email": "arvydas.simbelis@gmail.com"
+        }
+    ],
+    "require": {}
+}
