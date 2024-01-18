@@ -1,8 +1,7 @@
-<!-- <footer class="?$footerClass?"> -->
-<footer class="">
-    
+    <!-- <footer class="?$footerClass?"> -->
+    <footer class="">
         <div class="logo">
-            BIT Bank
+            <a href="">BIT Bank</a>
         </div>
     </footer>
 </body>
