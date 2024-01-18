@@ -3,6 +3,7 @@
 namespace Bank\App;
 
 use Bank\App\Controllers\HomeController;
+use Bank\App\Controllers\UserController;
 
 class App{
 
@@ -24,6 +25,10 @@ class App{
 
         if ('GET' === $method && count($url) === 2 && $url[0] === 'home'){
             return(new HomeController)->index($url[1]);
+        }
+
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'create'){
+            return(new UserController)->create();
         }
 
         return '<h1>404</h1>';
