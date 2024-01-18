@@ -337,4 +337,11 @@ button
 .time,  .toIBAN, .toName, .amount{
     border-right: 2px dotted rgb(47, 88, 0);
 }
+h1 {
+  font-size: 36px;
+}
 
+footer a {
+  color: white;
+  text-decoration: none;
+}

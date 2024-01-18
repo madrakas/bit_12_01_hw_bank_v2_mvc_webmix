@@ -11,16 +11,11 @@
     <!-- <header class=" ?$headerClass?"> -->
     <header class="">
         <div class="logo">
-            <a href="index.php">BIT Bank</a>
+            <a href="">BIT Bank</a>
         </div>
         
         <ul class="user_menu">
-        <?php if (isset($_SESSION['login']) && ($_SESSION['login'] === '1' )){ ?>
-            <li><form action="http://localhost/bank/process/session/destroy.php"" method='post'><button type="submit">Log Out</button></form></li>
-        <?php } else { ?>
             <li><a href="#">Sign Up</a></li>    
             <li><a href="#">Log In</a></li>    
-        <?php } ?>
-            
         </ul>
     </header>
