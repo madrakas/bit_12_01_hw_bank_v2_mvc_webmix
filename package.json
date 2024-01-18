@@ -1,0 +1,19 @@
+{
+  "name": "bank2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "mix watch"
+  },
+  "keywords": [],
+  "author": "Arvydas",
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-mix": "^6.0.49",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.70.0",
+    "sass-loader": "^12.1.0"
+  }
+}
