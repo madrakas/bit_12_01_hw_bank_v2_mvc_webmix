@@ -27,6 +27,10 @@ class App{
             return(new HomeController)->index($url[1]);
         }
 
+        if ('GET' === $method && count($url) === 1 && $url[0] === 'users'){
+            return(new UserController)->index();
+        }
+
         if ('GET' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'create'){
             return(new UserController)->create();
         }
