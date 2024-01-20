@@ -55,7 +55,7 @@ class UserController {
             'email' => $email,
             'pw' => sha1($pw1)
         ]);
-        App::redirect('');
+        App::redirect('users');
     }
 
     public function view($userID){

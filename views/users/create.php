@@ -1,8 +1,5 @@
 <h1>Create new Bit Bank account</h1>
 
-<p>Welcome to BIT Bank. To create new user account, please fill in this form.</p>
-<p>As bonus you will receive a bonus from 100 to 1000 Eur in your new bank account.</p>
-
 <p>All fields are required.</p>
 <form action="<?= URL ?>/users/store" method='post'>
     <label for="firstname">First name</label>

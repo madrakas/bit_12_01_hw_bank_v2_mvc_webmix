@@ -4,6 +4,7 @@ namespace Bank\App;
 
 use Bank\App\Controllers\HomeController;
 use Bank\App\Controllers\UserController;
+use Bank\App\Controllers\AccountController;
 
 class App{
 
@@ -57,6 +58,14 @@ class App{
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'destroy'){
             return (new UserController)->destroy($_POST);
+        }
+
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'accounts' && $url[1] === 'create'){
+            return(new AccountController)->create($url[2]);
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'accounts' && $url[1] === 'store'){
+            return (new AccountController)->store($_POST);
         }
 
         return '<h1>404</h1>';
