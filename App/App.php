@@ -35,7 +35,7 @@ class App{
             return(new UserController)->create();
         }
 
-        if ('POST' === $method && count($url) ===2 && $url[0] === 'users' && $url[1] === 'store'){
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'store'){
             return (new UserController)->store($_POST);
         }
 
@@ -47,8 +47,16 @@ class App{
             return(new UserController)->edit($url[2]);
         }
 
-        if ('POST' === $method && count($url) ===3 && $url[0] === 'users' && $url[1] === 'update'){
+        if ('POST' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'update'){
             return (new UserController)->update($url[2], $_POST);
+        }
+
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'delete'){
+            return(new UserController)->delete($url[2]);
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'destroy'){
+            return (new UserController)->destroy($_POST);
         }
 
         return '<h1>404</h1>';
