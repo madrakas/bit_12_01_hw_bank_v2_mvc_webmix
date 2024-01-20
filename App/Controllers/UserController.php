@@ -5,11 +5,20 @@ use Bank\App\App;
 use Bank\App\DB\FileBase;
 
 class UserController {
+    
+    public function index(){
+        $reader = new Filebase('users');
+        $users = $reader->showAll();
+        return App::view('users/index', [
+            'users' => $users
+        ]);
+    }
 
     public function create () {
         return App::view('users/create');
     }
-
+    
+    
     public function store($request){
         //Collection
         $firstname = $request['firstname'] ?? null;
@@ -48,14 +57,13 @@ class UserController {
         App::redirect('');
     }
 
-    public function index(){
-        $reader = new Filebase('users');
-        $users = $reader->showAll();
-        return App::view('users/index', [
-            'users' => $users
+    public function view($userID){
+        $reader = new FileBase('users');
+        $user = $reader->show($userID);
+        return App::view('users/view', [
+            'user' => $user
         ]);
     }
-
     
     //Validations
 
