@@ -84,6 +84,18 @@ class App{
             return (new AccountController)->destroy($_POST);
         }
 
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'accounts' && $url[1] === 'addfunds'){
+            return(new AccountController)->addfunds($url[2]);
+        }
+
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'accounts' && $url[1] === 'remfunds'){
+            return(new AccountController)->remfunds($url[2]);
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'accounts' && $url[1] === 'updateamount'){
+            return (new AccountController)->updateamount($_POST);
+        }
+
         return '<h1>404</h1>';
     }
 
