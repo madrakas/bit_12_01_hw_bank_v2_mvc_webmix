@@ -105,6 +105,7 @@ class UserController {
     }
 
     public function delete($userID){
+        //validate accounts
         $reader = new FileBase('users');
         $user = $reader->show($userID);
         return App::view('users/delete', [
@@ -114,9 +115,9 @@ class UserController {
     }
 
     public function destroy($request){
-        $userID = $request['userID'];
         //validate accounts
         //delete
+        $userID = $request['userID'];
         $writer = new FileBase('users');
         $writer->delete($userID);
         App::redirect('users');

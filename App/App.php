@@ -68,6 +68,14 @@ class App{
             return (new AccountController)->store($_POST);
         }
 
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'accounts' && $url[1] === 'delete'){
+            return(new AccountController)->delete($url[2]);
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'accounts' && $url[1] === 'destroy'){
+            return (new AccountController)->destroy($_POST);
+        }
+
         return '<h1>404</h1>';
     }
 
