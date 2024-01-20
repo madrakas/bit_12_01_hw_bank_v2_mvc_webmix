@@ -76,7 +76,8 @@ class FileBase implements DataBase
     public function showAll() : array
     {
         $this->save = false;
-        return $this->data;
+        $arr = json_decode(json_encode ( $this->data ) , true);
+        return $arr;
     }
 
     public function count($fieldName, $needle) : int
@@ -91,6 +92,7 @@ class FileBase implements DataBase
     public function nextID(){
         return $this->index;
     }
+
 
 
 }

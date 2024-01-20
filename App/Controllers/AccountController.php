@@ -26,4 +26,13 @@ class AccountController {
         App::redirect('users/view/' . $userID);
     }
 
+    public function view($userID){
+        $reader = new FileBase('accounts');
+        $accounts = $reader->showAll();
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] === $userID);
+        return $accounts;
+    }
+
+    
+
 }

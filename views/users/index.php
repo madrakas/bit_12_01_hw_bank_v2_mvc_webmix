@@ -3,11 +3,11 @@
 foreach($users as $user): ?>
     <div class="acc_row">
         <div><?= ++$i ?>.</div>
-        <div><?=$user->firstname ?></div>
-        <div><?=$user->lastname ?></div>
-        <div><?=$user->email ?></div>
-        <div><?=$user->ak ?></div>
-        <div><a href="<?= URL ?>/users/view/<?= $user->id ?>">Show details</a></div>
+        <div><?=$user['firstname'] ?></div>
+        <div><?=$user['lastname'] ?></div>
+        <div><?=$user['email'] ?></div>
+        <div><?=$user['ak'] ?></div>
+        <div><a href="<?= URL ?>/users/view/<?= $user['id'] ?>">Show details</a></div>
     </div>
 
 <?php endforeach ?>
