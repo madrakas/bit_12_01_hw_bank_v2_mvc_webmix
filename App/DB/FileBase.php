@@ -88,5 +88,9 @@ class FileBase implements DataBase
         
     }
 
+    public function nextID(){
+        return $this->index;
+    }
+
 
 }
