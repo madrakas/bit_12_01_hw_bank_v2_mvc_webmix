@@ -58,6 +58,14 @@ class UserController {
         App::redirect('');
     }
 
+    public function view($userID){
+        $reader = new FileBase('users');
+        $user = $reader->show($userID);
+        return App::view('users/view', [
+            'user' => $user
+        ]);
+    }
+
     public function edit($userID){
         $reader = new FileBase('users');
         $user = $reader->show($userID);
@@ -92,17 +100,26 @@ class UserController {
         App::redirect('users/view/' . $userID);
     }
 
-    public function view($userID){
+    public function delete($userID){
         $reader = new FileBase('users');
         $user = $reader->show($userID);
-        return App::view('users/view', [
+        return App::view('users/delete', [
             'user' => $user
         ]);
+        
     }
-    
-    //Validations
+
+    public function destroy($request){
+        $userID = $request['userID'];
+        //validate accounts
+        //delete
+        $writer = new FileBase('users');
+        $writer->delete($userID);
+        App::redirect('users');
+    }
 
     
+    //Validations
     private function validUserData($firstname, $lastname, $ak, $email, $pw1, $pw2) : string
     {
         $err = '';
