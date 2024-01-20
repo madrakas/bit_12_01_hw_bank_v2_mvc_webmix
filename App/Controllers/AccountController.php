@@ -33,6 +33,26 @@ class AccountController {
         return $accounts;
     }
 
-    
+    public function delete($accountID){
+        $reader = new FileBase('accounts');
+        $account = $reader->show($accountID);
+        if ($account->amount !== 0){
+            $uid = $account;
+            App::view('users/view/' . $uid);
+        }else{
+            return App::view('accounts/delete', [
+                'account' => $account
+            ]);
+        }
+    }
 
+    public function destroy($request){
+        $accountID = $request['accountID'];
+        $writer = new FileBase('accounts');
+        $reader = new FileBase('accounts');
+        $account = $reader->show($accountID);
+        $userID = $account->uid;
+        $writer->delete($accountID);
+        App::redirect('users/view/' . $userID);
+    }
 }
