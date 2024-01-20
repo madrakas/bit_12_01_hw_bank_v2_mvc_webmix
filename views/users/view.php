@@ -14,13 +14,13 @@
 <div class="details-head">Money accounts</div>
 <h2>Under construction</h2>
 <?php
-// $i = 0;
-//     foreach ($accounts as $account) {
-//         echo '<div class="detail-row">';
-//         echo '<div>' . ++$i . '.</div>';
-//         echo '<div>' .  $account->iban . ' | ' . $account->amount . ' ' . $account.currency . ' | <a href="' . URL . '/accounts/delete/' .$account->id . '">Delete money account</a></div>';
-//         echo '</div>';
-//     }
+$i = 0;
+    foreach ($accounts as $account) {
+        echo '<div class="detail-row">';
+        echo '<div>' . ++$i . '.</div>';
+        echo '<div>' .  $account['iban'] . ' | ' . $account['amount'] . ' ' . $account['currency'] . ' | Add funds | Withdraw funds | View transactions | <a href="' . URL . '/accounts/delete/' .$account['id'] . '">Delete money account</a></div>';
+        echo '</div>';
+    }
 ?>
 <h2>More actions</h2>
 <p><a href="<?= URL ?>/accounts/create/<?= $user->id ?>">Add money account</a> | <a href="/logins/viewuser/<?= $user->id?>">Show logins log</a></p>

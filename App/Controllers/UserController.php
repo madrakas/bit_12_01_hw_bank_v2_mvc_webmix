@@ -3,6 +3,7 @@
 namespace Bank\App\Controllers;
 use Bank\App\App;
 use Bank\App\DB\FileBase;
+use Bank\App\Controllers\AccountControler;
 
 class UserController {
     
@@ -61,8 +62,11 @@ class UserController {
     public function view($userID){
         $reader = new FileBase('users');
         $user = $reader->show($userID);
+        $reader = new AccountController;
+        $accounts = $reader->view($userID);
         return App::view('users/view', [
-            'user' => $user
+            'user' => $user,
+            'accounts' => $accounts
         ]);
     }
 
