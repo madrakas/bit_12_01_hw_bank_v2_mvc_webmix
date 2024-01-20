@@ -39,6 +39,10 @@ class App{
             return (new UserController)->store($_POST);
         }
 
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'view'){
+            return(new UserController)->view($url[2]);
+        }
+
         return '<h1>404</h1>';
     }
 
