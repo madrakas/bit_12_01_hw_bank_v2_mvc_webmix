@@ -48,6 +48,14 @@ class UserController {
         App::redirect('');
     }
 
+    public function index(){
+        $reader = new Filebase('users');
+        $users = $reader->showAll();
+        return App::view('users/index', [
+            'users' => $users
+        ]);
+    }
+
     
     //Validations
 
