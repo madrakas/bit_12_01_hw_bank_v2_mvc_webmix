@@ -15,7 +15,8 @@
         </div>
         
         <ul class="user_menu">
-            <li><a href="#">Sign Up</a></li>    
+            <li><a href="<?= URL ?>/user/create">Sign Up</a></li>    
             <li><a href="#">Log In</a></li>    
         </ul>
     </header>
+    <content>

@@ -1,3 +1,4 @@
+</content>
     <!-- <footer class="?$footerClass?"> -->
     <footer class="">
         <div class="logo">
