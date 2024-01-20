@@ -45,7 +45,8 @@ class UserController {
             'email' => $email,
             'pw' => sha1($pw1)
         ]);
-        //Create account for a new user
+        //Create money account for a new user
+        // Need to move to accounts controller
         $writer = new FileBase('accounts');
         $writer->create((object) [
             'firstname' => $firstname,
@@ -55,6 +56,40 @@ class UserController {
             'pw' => sha1($pw1)
         ]);
         App::redirect('');
+    }
+
+    public function edit($userID){
+        $reader = new FileBase('users');
+        $user = $reader->show($userID);
+        return App::view('users/edit', [
+            'user' => $user
+        ]);
+    }
+
+    public function update($userID, $request){
+        //Collection
+        $firstname = $request['firstname'] ?? null;
+        $lastname = $request['lastname'] ?? null;
+        $ak = $request['ak'] ?? null;
+        $email = $request['email'] ?? null;
+        
+        //validation
+        $err = $this->validUserData2($firstname, $lastname, $ak, $email);
+        if ($err !==''){
+            echo $err;
+            // App::redirect('users/edit/' .userid);
+            die;
+        }
+
+        $writer = new FileBase('users');
+        $writer->update($userID, (object) [
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'ak' => $ak,
+            'email' => $email,
+            'pw' => sha1($pw1)
+        ]);
+        App::redirect('users/view/' . $userID);
     }
 
     public function view($userID){
@@ -82,6 +117,23 @@ class UserController {
             $err .= 'User with same Email already exists.<b/r>.';
         } elseif ($this->akExists($ak)){
             $err .= 'User with same Personal identification number already exists.<b/r>';
+        } elseif (strlen($firstname) < 4){
+            $err .= 'First name must be 4 letters or longer';
+        } elseif (strlen($lastname) < 4){
+            $err .= 'Last name must be 4 letters or longer';
+        }
+    
+        return $err;
+    }
+
+    private function validUserData2($firstname, $lastname, $ak, $email) : string
+    {
+        $err = '';
+
+        if ($firstname === '' || $lastname === '' || $ak === '' || $email === ''){
+            $err .= 'All fields are required.<br/>';
+        } elseif(!$this->validPersonalCode($ak)){
+            $err .= 'Invalid Personal identification number.<br/>';
         } elseif (strlen($firstname) < 4){
             $err .= 'First name must be 4 letters or longer';
         } elseif (strlen($lastname) < 4){

@@ -11,7 +11,7 @@
     <!-- <header class=" ?$headerClass?"> -->
     <header class="">
         <div class="logo">
-            <a href="">BIT Bank</a>
+            <a href="<?= URL ?>">BIT Bank</a>
         </div>
         
         <ul class="user_menu">
