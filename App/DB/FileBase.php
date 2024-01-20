@@ -79,5 +79,14 @@ class FileBase implements DataBase
         return $this->data;
     }
 
+    public function count($fieldName, $needle) : int
+    {
+        $this->save = false;
+        $arr = json_decode(json_encode ( $this->data ) , true);
+        $arr = array_filter($arr, fn($a) => $a[$fieldName] === $needle);
+        return count($arr);
+        
+    }
+
 
 }
