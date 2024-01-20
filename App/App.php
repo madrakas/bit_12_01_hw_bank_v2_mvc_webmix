@@ -51,6 +51,14 @@ class App{
         if ('POST' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'update'){
             return (new UserController)->update($url[2], $_POST);
         }
+        
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'editpw'){
+            return(new UserController)->editPW($url[2]);
+        }
+        
+        if ('POST' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'updatepw'){
+            return (new UserController)->updatePW($_POST);
+        }
 
         if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'delete'){
             return(new UserController)->delete($url[2]);

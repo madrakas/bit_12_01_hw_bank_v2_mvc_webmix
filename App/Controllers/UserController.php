@@ -78,6 +78,43 @@ class UserController {
         ]);
     }
 
+
+    public function editPW($userID){
+        return App::view('users/editpw', [
+            'userID' => $userID
+        ]);
+    }
+
+    public function updatePW($request){
+        //Collection
+        $userID = $request['userID'];
+        $pw1 = $request['pw1'] ?? '';
+        $pw2 = $request['pw2'] ?? '';
+
+        $err = '';
+        if ($pw1 === '' || $pw2 ===''){
+            $err = 'All fields required';
+        }
+
+        if ($pw1 !== $pw2){
+            $err = 'Paswords do not match';
+        }
+
+        if ($err !== ''){
+            echo $err;
+            // App::redirect('users/editPW/' . $userID);
+            die;
+        }
+
+        $reader = new FileBase('users');
+        $user = $reader->show($userID);
+        $user->pw = sha1($pw1);
+        $writer = new FileBase('users');
+        $writer->update($userID, $user);
+
+        App::redirect('users/view/' . $userID);
+    }
+
     public function update($userID, $request){
         //Collection
         $firstname = $request['firstname'] ?? null;
@@ -89,18 +126,25 @@ class UserController {
         $err = $this->validUserData2($firstname, $lastname, $ak, $email);
         if ($err !==''){
             echo $err;
-            // App::redirect('users/edit/' .userid);
+            // App::redirect('users/edit/' . $userID);
             die;
         }
 
+        $reader = new FileBase('users');
+        $user = $reader->show($userID);
+        $user->firstname = $firstname;
+        $user->lastname = $lastname;
+        $user->ak = $ak;
+        $user->email = $email;
         $writer = new FileBase('users');
-        $writer->update($userID, (object) [
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'ak' => $ak,
-            'email' => $email,
-            'pw' => sha1($pw1)
-        ]);
+        $writer->update($userID, $user);
+        // $writer->update($userID, (object) [
+        //     'firstname' => $firstname,
+        //     'lastname' => $lastname,
+        //     'ak' => $ak,
+        //     'email' => $email,
+        //     'pw' => $pw
+        // ]);
         App::redirect('users/view/' . $userID);
     }
 
