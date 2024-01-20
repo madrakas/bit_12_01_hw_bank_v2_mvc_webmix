@@ -4,7 +4,7 @@
 <p>As bonus you will receive a bonus from 100 to 1000 Eur in your new bank account.</p>
 
 <p>All fields are required.</p>
-<form action="<?= URL ?>/user/store.php" method='post'>
+<form action="<?= URL ?>/users/store" method='post'>
     <label for="firstname">First name</label>
     <input id="firstname" name="firstname" type="text" value="<?= $firstname ?? '' ?>"></input>
     <label for="lastname">Last name</label>
