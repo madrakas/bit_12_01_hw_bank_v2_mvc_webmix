@@ -27,8 +27,12 @@ class App{
             return(new HomeController)->index($url[1]);
         }
 
-        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'create'){
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'create'){
             return(new UserController)->create();
+        }
+
+        if ('POST' === $method && count($url) ===2 && $url[0] === 'users' && $url[1] === 'store'){
+            return (new UserController)->store($_POST);
         }
 
         return '<h1>404</h1>';
@@ -43,5 +47,11 @@ class App{
         require ROOT . 'views/bottom.php';
         $content = ob_get_clean();
         return $content;
+    }
+
+    public static function redirect($url)
+    {
+        header('Location: ' . URL . '/' . $url);
+        return null;
     }
 }
