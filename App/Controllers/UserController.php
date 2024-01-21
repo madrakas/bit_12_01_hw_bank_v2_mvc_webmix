@@ -4,6 +4,7 @@ namespace Bank\App\Controllers;
 use Bank\App\App;
 use Bank\App\DB\FileBase;
 use Bank\App\Controllers\AccountControler;
+use Bank\App\Message;
 
 class UserController {
     
@@ -32,8 +33,8 @@ class UserController {
         //Validation 
         $err = $this->validUserData($firstname, $lastname, $ak, $email, $pw1, $pw2);
         if ($err !== ''){
-            echo $err;
-            // App::redirect('users/create/');
+            Message::get()->set('red', $err);
+            App::redirect('users/create/');
             die;
         }
 
@@ -46,16 +47,10 @@ class UserController {
             'email' => $email,
             'pw' => sha1($pw1)
         ]);
-        //Create money account for a new user
-        // Need to move to accounts controller
-        $writer = new FileBase('accounts');
-        $writer->create((object) [
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'ak' => $ak,
-            'email' => $email,
-            'pw' => sha1($pw1)
-        ]);
+
+        // Create money account for a new user
+        (new AccountController)->store2($userID);
+        Message::get()->set('Green', 'User created Successfully');
         App::redirect('users');
     }
 
@@ -101,8 +96,8 @@ class UserController {
         }
 
         if ($err !== ''){
-            echo $err;
-            // App::redirect('users/editPW/' . $userID);
+            Message::get()->set('red', $err);
+            App::redirect('users/editPW/' . $userID);
             die;
         }
 
@@ -111,7 +106,7 @@ class UserController {
         $user->pw = sha1($pw1);
         $writer = new FileBase('users');
         $writer->update($userID, $user);
-
+        Message::get()->set('green', 'Password updated successfully.');
         App::redirect('users/view/' . $userID);
     }
 
@@ -125,8 +120,8 @@ class UserController {
         //validation
         $err = $this->validUserData2($firstname, $lastname, $ak, $email);
         if ($err !==''){
-            echo $err;
-            // App::redirect('users/edit/' . $userID);
+            Message::get()->set('red', $err);
+            App::redirect('users/edit/' . $userID);
             die;
         }
 
@@ -138,14 +133,8 @@ class UserController {
         $user->email = $email;
         $writer = new FileBase('users');
         $writer->update($userID, $user);
-        // $writer->update($userID, (object) [
-        //     'firstname' => $firstname,
-        //     'lastname' => $lastname,
-        //     'ak' => $ak,
-        //     'email' => $email,
-        //     'pw' => $pw
-        // ]);
-        App::redirect('users/view/' . $userID);
+        Message::get()->set('green', 'User updated successfully');
+         App::redirect('users/view/' . $userID);
     }
 
     public function delete($userID){
@@ -156,12 +145,13 @@ class UserController {
             $err = "To delete user all acounts balance must be 0";
         }
         if ($err !==''){
-            echo $err;
-            // App::view('users/view/' . $userID);
+            Message::get()->set('red', $err);
+            App::redirect('users/view/' . $userID);
             die;
         }
         $reader = new FileBase('users');
         $user = $reader->show($userID);
+        
         return App::view('users/delete', [
             'user' => $user
         ]);
@@ -177,17 +167,18 @@ class UserController {
             $err = "To delete user all acounts balance must be 0";
         }
         if ($err !==''){
-            echo $err;
-            // App::redirect('users/view/' . $userID);
+            Message::get()->set('red', $err);
+            App::redirect('users/view/' . $userID);
             die;
         }
 
         //delete accounts
         (new AccountController)->deleteAccountsByUID($userID);
-        
+     
         //delete user
         $writer = new FileBase('users');
         $writer->delete($userID);
+        Message::get()->set('green', 'Account deleted successfully.');
         App::redirect('users');
     }
 
