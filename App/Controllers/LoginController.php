@@ -29,7 +29,7 @@ class LoginController {
 
     public function logout() {
         Auth::get()->logout();
-        Message::get()->set('green', 'You  logged out');
+        Message::get()->set('green', 'You are logged out');
         return App::redirect('login');
     }
 
