@@ -72,6 +72,10 @@ class App{
             return(new AccountController)->create($url[2]);
         }
 
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'accounts' && $url[1] === 'view'){
+            return(new AccountController)->viewTransactions($url[2]);
+        }
+
         if ('POST' === $method && count($url) === 2 && $url[0] === 'accounts' && $url[1] === 'store'){
             return (new AccountController)->store($_POST);
         }

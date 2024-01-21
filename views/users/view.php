@@ -18,7 +18,7 @@ $i = 0;
     foreach ($accounts as $account) {
         echo '<div class="detail-row">';
         echo '<div>' . ++$i . '.</div>';
-        echo '<div>' .  $account['iban'] . ' | ' . $account['amount'] . ' ' . $account['currency'] . ' | <a href="' . URL . '/accounts/addfunds/' .$account['id'] . '">Add funds</a> | <a href="' . URL . '/accounts/remfunds/' .$account['id'] . '">Withdraw funds</a> | View transactions | <a href="' . URL . '/accounts/delete/' .$account['id'] . '">Delete money account</a></div>';
+        echo '<div>' .  $account['iban'] . ' | ' . $account['amount'] . ' ' . $account['currency'] . ' | <a href="' . URL . '/accounts/addfunds/' .$account['id'] . '">Add funds</a> | <a href="' . URL . '/accounts/remfunds/' .$account['id'] . '">Withdraw funds</a> | <a href="' . URL . '/accounts/view/' . $account['id'] . '">View transactions</a> | <a href="' . URL . '/accounts/delete/' .$account['id'] . '">Delete money account</a></div>';
         echo '</div>';
     }
 ?>
