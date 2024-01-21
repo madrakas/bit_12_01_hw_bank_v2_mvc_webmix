@@ -22,4 +22,4 @@ $i = 0;
     }
 ?>
 <h2>More actions</h2>
-<p><a href="<?= URL ?>/accounts/create/<?= $user->id ?>">Add money account</a> | <a href="/logins/viewuser/<?= $user->id?>">Show logins log</a></p>
+<p><a href="<?= URL ?>/accounts/create/<?= $user->id ?>">Add money account</a> | <a href="/users/logins/<?= $user->id?>">Show logins log</a></p>
