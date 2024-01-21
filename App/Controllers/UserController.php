@@ -50,7 +50,7 @@ class UserController {
 
         // Create money account for a new user
         (new AccountController)->store2($userID);
-        Message::get()->set('Green', 'User created Successfully');
+        Message::get()->set('green', 'User created Successfully');
         App::redirect('users');
     }
 
