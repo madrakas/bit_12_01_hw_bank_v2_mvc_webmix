@@ -106,8 +106,8 @@ class AccountController {
                 $amount= $addAmount;
                 $transaction = (object) [
                     'time' => date('Y-m-d H:i:s'),
-                    'From' => 0,
-                    'to'  => $account->uid,
+                    'from' => 0,
+                    'to'  => $account->id,
                     'toIBAN' => $account->iban,
                     'fromIBAN' => 'cash',
                     'fromName' => '',
@@ -119,7 +119,7 @@ class AccountController {
             }elseif($remAmount > 0){
                 $transaction = (object) [
                     'time' => date('Y-m-d H:i:s'),
-                    'From' => $account->uid,
+                    'from' => $account->id,
                     'to'  => 0,
                     'toIBAN' => 'cash',
                     'fromIBAN' => $account->iban,
@@ -164,5 +164,17 @@ class AccountController {
         }
     }
 
-    
+    public function viewTransactions($accountID){
+
+        $sent = (new transactionController)->showAccSent($accountID);
+        $received = (new transactionController)->showAccReceived($accountID);
+        $account = (new FileBase('accounts'))->show($accountID);
+
+        return App::view('accounts/transactions', [
+            'accountID' => $accountID,
+            'iban' => $account->iban,
+            'sent' => $sent,
+            'received' => $received
+        ]);
+    }
 }
