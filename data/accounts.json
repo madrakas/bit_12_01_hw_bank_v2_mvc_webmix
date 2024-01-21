@@ -1,1 +1,1 @@
-[{"uid":1,"iban":"LT56999990000000002","amount":20,"currency":"Eur","id":2},{"uid":1,"iban":"LT78999990000000003","amount":20,"currency":"Eur","id":3},{"uid":2,"iban":"LT27999990000000004","amount":0,"currency":"Eur","id":4}]
+[{"uid":1,"iban":"LT56999990000000002","amount":20,"currency":"Eur","id":2},{"uid":1,"iban":"LT78999990000000003","amount":20,"currency":"Eur","id":3},{"uid":2,"iban":"LT27999990000000004","amount":10,"currency":"Eur","id":4},{"uid":2,"iban":"LT07999990000000005","amount":10,"currency":"Eur","id":5}]
