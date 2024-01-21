@@ -150,6 +150,16 @@ class UserController {
 
     public function delete($userID){
         //validate accounts
+        $accounts = new AccountController;
+        $err ='';
+        if ($accounts->userAccountsAmount($userID) !== 0){
+            $err = "To delete user all acounts balance must be 0";
+        }
+        if ($err !==''){
+            echo $err;
+            // App::view('users/view/' . $userID);
+            die;
+        }
         $reader = new FileBase('users');
         $user = $reader->show($userID);
         return App::view('users/delete', [
@@ -159,9 +169,23 @@ class UserController {
     }
 
     public function destroy($request){
-        //validate accounts
-        //delete
         $userID = $request['userID'];
+        //validate accounts
+        $err='';
+        $accounts = (new AccountController)->userAccountsAmount($userID);
+        if ($accounts !== 0){
+            $err = "To delete user all acounts balance must be 0";
+        }
+        if ($err !==''){
+            echo $err;
+            // App::redirect('users/view/' . $userID);
+            die;
+        }
+
+        //delete accounts
+        (new AccountController)->deleteAccountsByUID($userID);
+        
+        //delete user
         $writer = new FileBase('users');
         $writer->delete($userID);
         App::redirect('users');
