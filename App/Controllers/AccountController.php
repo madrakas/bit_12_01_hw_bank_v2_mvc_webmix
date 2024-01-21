@@ -39,7 +39,8 @@ class AccountController {
         if ($account->amount !== 0){
             $uid = $account->uid;
             $err = 'Cannot delete. Account not empty';
-            App::view('users/view/' . $uid);
+            echo $err;
+            // App::redirect('users/view/' . $uid);
         }else{
             return App::view('accounts/delete', [
                 'account' => $account
@@ -85,15 +86,51 @@ class AccountController {
         $accountID = $request['accountID'];
         $addAmount = $request['addAmount'] ?? 0;
         $remAmount = $request['remAmount'] ?? 0;
-
         $reader = new filebase('accounts');
         $account = $reader->show($accountID);
         $userID = $account->uid;
+        $err ='';
         $account->amount += $addAmount;
-        $account->amount -= $remAmount;
-        $writer = new filebase('accounts');
-        $writer->update($accountID, $account);
-
+        if ($account->amount < $remAmount){
+            $err = 'Insuficient banlance.';
+        }else{
+            $account->amount -= $remAmount;
+        }
+        if ($err ='') {
+            $writer = new filebase('accounts');
+            $writer->update($accountID, $account);
+        }
+        
         App::redirect('users/view/' . $userID);
     }
+
+
+    public function userAccountsAmount($userID){
+        $reader = new FileBase('accounts');
+        $accounts = $reader->showAll();
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] === $userID);
+        $amount = 0;
+        foreach ($accounts as $acc) {
+            $amount += $acc['amount'];    
+        }
+        return $amount;
+    }
+
+    public function userAccountsCount($userID){
+        $reader = new FileBase('accounts');
+        $accounts = $reader->showAll();
+        $accounts = array_filter($accounts, fn($acc) => $acc->uid === $userID);
+        return count($accounts);
+    }
+
+    public function deleteAccountsByUID($userID){
+        $reader = new FileBase('accounts');
+        $accounts = $reader->showAll();
+        $accounts = array_filter($accounts, fn($acc) => $acc->uid === $userID);
+        $writer = new FileBase('accounts');
+        foreach ($accounts as $acc) {
+            $writer->delete($acc->id);
+        }
+    }
+
 }
