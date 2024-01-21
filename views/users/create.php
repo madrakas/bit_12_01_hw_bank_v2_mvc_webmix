@@ -1,4 +1,4 @@
-<h1>Create new Bit Bank account</h1>
+<h1>Create new Bit Bank user</h1>
 
 <p>All fields are required.</p>
 <form action="<?= URL ?>/users/store" method='post'>
@@ -14,6 +14,6 @@
     <input id="pw1" name="pw1" type="password"></input>
     <label for="pw2">Repeat Password</label>
     <input id="pw2" name="pw2" type="password"></input>
-    <button type="submit">Create account</button>
+    <button type="submit">Create user</button>
     <button type="reset">Reset Form</button>
 </form> 
