@@ -1,6 +1,7 @@
 <?php 
 use Bank\App\App;
 use Bank\App\Message;
+use bank\App\Auth;
 
 session_start();
 require '../vendor/autoload.php';

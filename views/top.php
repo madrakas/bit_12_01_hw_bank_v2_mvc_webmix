@@ -16,7 +16,7 @@
         
         <ul class="user_menu">
             <li><a href="<?= URL ?>/users/create">Sign Up</a></li>    
-            <li><a href="#">Log In</a></li>    
+            <li><a href="<?= URL ?>/login">Log In</a></li>    
         </ul>
     </header>
     <?php require ROOT. 'views/message.php' ?>

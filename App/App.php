@@ -5,8 +5,9 @@ namespace Bank\App;
 use Bank\App\Controllers\HomeController;
 use Bank\App\Controllers\UserController;
 use Bank\App\Controllers\AccountController;
+use Bank\App\Controllers\LoginController;
 use Bank\App\Message;
-
+use Bank\App\Auth;
 
 class App{
 
@@ -14,8 +15,6 @@ class App{
         $server = $_SERVER['REQUEST_URI'];
         $url = explode('/', $server);
         array_shift($url);
-
-        // echo "<h1>Bank is Online<h1>";
         return self::router($url);
     }
 
@@ -24,6 +23,19 @@ class App{
 
         if ('GET' === $method && count($url) === 1 && $url[0] === ''){
             return(new HomeController)->index('blue');
+        }
+
+        
+        if ('GET' == $method && count($url) == 1 && $url[0] == 'login') {
+            return (new LoginController)->index();
+        }
+
+        if ('POST' == $method && count($url) == 1 && $url[0] == 'login') {
+            return (new LoginController)->login($_POST);
+        }
+
+        if ('POST' == $method && count($url) == 1 && $url[0] == 'logout') {
+            return (new LoginController)->logout();
         }
 
         if ('GET' === $method && count($url) === 2 && $url[0] === 'home'){
