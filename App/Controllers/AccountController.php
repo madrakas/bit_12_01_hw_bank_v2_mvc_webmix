@@ -4,6 +4,7 @@ namespace Bank\App\Controllers;
 use Bank\App\App;
 use Bank\App\DB\FileBase;
 use Bank\App\Controllers\TransactionController;
+use Bank\App\Message;
 
 class AccountController {
     
@@ -129,7 +130,10 @@ class AccountController {
                     'curr' => 'Eur'
                 ];
                 (new TransactionController)->new($transaction);
+
             }
+        }else{
+            Message::get()->set('red', $err);
         }
         
         App::redirect('users/view/' . $userID);
