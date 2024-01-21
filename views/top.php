@@ -8,18 +8,30 @@
     <title><?= $title ?? 'BIT bank' ?></title>
 </head>
 <body>
-    <!-- <header class=" ?$headerClass?"> -->
-    <header class="">
+    <?php 
+    $headerClass = '';
+    if ($auth ){
+        $headerClass = 'admin';
+    } elseif($auth > 1) {
+        $headerClass = 'logedin';
+    }
+    ?>
+    <header class="<?= $headerClass ?>">
         <div class="logo">
             <a href="<?= URL ?>">BIT Bank</a>
         </div>
         
         <ul class="user_menu">
-            <li><a href="<?= URL ?>/users/create">Sign Up</a></li>    
-            <li><a href="<?= URL ?>/login">Log In</a></li>    
+            <?php if ($auth){ ?>
+                <li><form action="<?= URL ?>/logout" method='post'><button type="submit">Log Out</button></form></li>
+            <?php } else { ?>
+                <li><a href="<?= URL ?>/users/create">Sign Up</a></li>    
+                <li><a href="<?= URL ?>/login">Log In</a></li>    
+            <?php } ?>
         </ul>
     </header>
     <?php require ROOT. 'views/message.php' ?>
+
     <content>
 
     

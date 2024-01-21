@@ -121,6 +121,7 @@ class App{
     {
         extract($data);
         $msg = Message::get()->show();
+        $auth = Auth::get()->getStatus();
         ob_start();
         require ROOT . 'views/top.php';
         require ROOT . "views/$view.php";

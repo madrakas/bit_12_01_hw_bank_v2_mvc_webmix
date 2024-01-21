@@ -31,26 +31,23 @@ class Auth {
     }
 
     public function tryLoginUser($email, $password) {
-        
-        $reader = new Filebase('users');
-        $users = $reader->showAll();
-
+        $writer = new FileBase('users');
+        $users = $writer->showAll();
         foreach ($users as $user) {
             if ($user['email'] == $email && $user['pw'] == sha1($password)) {
                 $_SESSION['login'] = 1;
-                $_SESSION['uid'] = $user->id;
+                $_SESSION['user'] = $user['id'];
                 return true;
             }
-            
         }
         return false;
-        
     }
 
     public function logout() {
         $_SESSION['login'] = 0;
-        $_SESSION['uid'] = '';
+        $_SESSION['user'] = '';
         return true;
     }
+
 
 }
