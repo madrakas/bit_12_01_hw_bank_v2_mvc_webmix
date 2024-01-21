@@ -10,7 +10,7 @@
 <body>
     <?php 
     $headerClass = '';
-    if ($auth ){
+    if ($auth === 1  ){
         $headerClass = 'admin';
     } elseif($auth > 1) {
         $headerClass = 'logedin';
@@ -32,6 +32,36 @@
     </header>
     <?php require ROOT. 'views/message.php' ?>
 
-    <content>
+    <?php 
+    if ($auth){
+        $contentClass='logedin';
+
+    }else{
+        $contentClass='';
+    }
+    
+
+    if ($auth){
+    ?>
+    <div class="left-menu">
+        <ul>
+            <?php if ($auth === 1) { ?>
+                <strong>Admin menu</strong>
+                <hr/>
+                <li><a href="<?= URL ?>/users">Show users</a></li>    
+                <li><a href="<?= URL ?>/transactions">View transactions</a></li>    
+                <li><a href="<?= URL ?>/logins">View logins</a></li>    
+                <strong>User menu</strong><hr/>
+                <?php } ?>
+                <li><a href="#">My money accounts</a></li>
+                <li><a href="#">Make a transaction</a></li>
+                <li><a href="#">Transactions history</a></li>
+                <li><a href="#">User data</a></li>
+        </ul>
+    </div>
+    <?php }?>
+   
+    <content class="<?= $contentClass ?>">
+    
 
     

@@ -25,7 +25,6 @@ class App{
             return(new HomeController)->index('blue');
         }
 
-        
         if ('GET' == $method && count($url) == 1 && $url[0] == 'login') {
             return (new LoginController)->index();
         }

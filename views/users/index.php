@@ -11,3 +11,6 @@ foreach($users as $user): ?>
     </div>
 
 <?php endforeach ?>
+
+<h2>More actions</h2>
+    <p><a href="<?= URL ?>/users/create">Add new user</a></p>
