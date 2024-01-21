@@ -86,6 +86,10 @@ class App{
             return (new UserController)->destroy($_POST);
         }
 
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'logins'){
+            return(new UserController)->logins($url[2]);
+        }
+
         if ($url[0] == 'accounts' && Auth::get()->getStatus() !==1) {
             return self::redirect('');
         }

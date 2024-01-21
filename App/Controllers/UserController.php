@@ -65,6 +65,19 @@ class UserController {
         ]);
     }
 
+    public function logins($userID){
+        $reader = new FileBase('logins');
+        $logins = $reader->showAll();
+        $logins = array_filter($logins, fn($login) => $login['user'] == $userID);
+        $reader = new FileBase('users');
+        $user = $reader->show($userID);
+        return App::view('users/logins', [
+            'user' => $user,
+            'logins' => $logins
+        ]);
+        
+    }
+
     public function edit($userID){
         $reader = new FileBase('users');
         $user = $reader->show($userID);
