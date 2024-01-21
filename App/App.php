@@ -41,6 +41,11 @@ class App{
             return(new HomeController)->index($url[1]);
         }
 
+        if ($url[0] == 'users' && Auth::get()->getStatus() !==1) {
+            return self::redirect('');
+        }
+
+
         if ('GET' === $method && count($url) === 1 && $url[0] === 'users'){
             return(new UserController)->index();
         }
@@ -79,6 +84,10 @@ class App{
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'destroy'){
             return (new UserController)->destroy($_POST);
+        }
+
+        if ($url[0] == 'accounts' && Auth::get()->getStatus() !==1) {
+            return self::redirect('');
         }
 
         if ('GET' === $method && count($url) === 3 && $url[0] === 'accounts' && $url[1] === 'create'){
