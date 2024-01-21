@@ -1,6 +1,8 @@
 <?php 
 use Bank\App\App;
+use Bank\App\Message;
 
+session_start();
 require '../vendor/autoload.php';
 
 define('ROOT', __DIR__ . '/../');

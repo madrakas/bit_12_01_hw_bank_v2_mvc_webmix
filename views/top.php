@@ -19,4 +19,7 @@
             <li><a href="#">Log In</a></li>    
         </ul>
     </header>
+    <?php require ROOT. 'views/message.php' ?>
     <content>
+
+    
