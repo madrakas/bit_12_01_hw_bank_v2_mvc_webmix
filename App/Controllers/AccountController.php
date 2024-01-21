@@ -3,6 +3,7 @@ namespace Bank\App\Controllers;
 
 use Bank\App\App;
 use Bank\App\DB\FileBase;
+use Bank\App\Controllers\TransactionController;
 
 class AccountController {
     
@@ -96,9 +97,39 @@ class AccountController {
         }else{
             $account->amount -= $remAmount;
         }
-        if ($err ='') {
+        if ($err ==='') {
             $writer = new filebase('accounts');
             $writer->update($accountID, $account);
+
+            //log transaction 
+            if ($addAmount > 0){
+                $amount= $addAmount;
+                $transaction = (object) [
+                    'time' => date('Y-m-d H:i:s'),
+                    'From' => 0,
+                    'to'  => $account->uid,
+                    'toIBAN' => $account->iban,
+                    'fromIBAN' => 'cash',
+                    'fromName' => '',
+                    'toName' => '', 
+                    'amount' => $amount,
+                    'curr' => 'Eur'
+                ];
+                (new TransactionController)->new($transaction);
+            }elseif($remAmount > 0){
+                $transaction = (object) [
+                    'time' => date('Y-m-d H:i:s'),
+                    'From' => $account->uid,
+                    'to'  => 0,
+                    'toIBAN' => 'cash',
+                    'fromIBAN' => $account->iban,
+                    'fromName' => '',
+                    'toName' => '', 
+                    'amount' => $amount,
+                    'curr' => 'Eur'
+                ];
+                (new TransactionController)->new($transaction);
+            }
         }
         
         App::redirect('users/view/' . $userID);
@@ -133,4 +164,5 @@ class AccountController {
         }
     }
 
+    
 }
