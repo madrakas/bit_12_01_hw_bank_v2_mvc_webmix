@@ -20,7 +20,7 @@ class AccountController {
         $accountID = $writer->nextID();
         $iban = 'LT' . rand(0, 9) . rand(0, 9) . '99999' . str_pad($accountID, 10, '0', STR_PAD_LEFT);
         $writer->create((object)[
-            'uid' => $userID,
+            'uid' => intval($userID),
             'iban' => $iban,
             'amount' => 0,
             'currency' => 'Eur'
@@ -28,10 +28,23 @@ class AccountController {
         App::redirect('users/view/' . $userID);
     }
 
+
+    public function store2 ($userID) {
+        $writer = new FileBase('accounts');
+        $accountID = $writer->nextID();
+        $iban = 'LT' . rand(0, 9) . rand(0, 9) . '99999' . str_pad($accountID, 10, '0', STR_PAD_LEFT);
+        $writer->create((object)[
+            'uid' => intval($userID),
+            'iban' => $iban,
+            'amount' => 0,
+            'currency' => 'Eur'
+        ]);
+    }
+
     public function view($userID){
         $reader = new FileBase('accounts');
         $accounts = $reader->showAll();
-        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] === $userID);
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         return $accounts;
     }
 
@@ -104,7 +117,6 @@ class AccountController {
 
             //log transaction 
             if ($addAmount > 0){
-                $amount= $addAmount;
                 $transaction = (object) [
                     'time' => date('Y-m-d H:i:s'),
                     'from' => 0,
@@ -113,10 +125,11 @@ class AccountController {
                     'fromIBAN' => 'cash',
                     'fromName' => '',
                     'toName' => '', 
-                    'amount' => $amount,
+                    'amount' => $addAmount,
                     'curr' => 'Eur'
                 ];
                 (new TransactionController)->new($transaction);
+                Message::get()->set('green', 'Successfully added ' . $addAmount . ' Eur to ' . $account->iban);
             }elseif($remAmount > 0){
                 $transaction = (object) [
                     'time' => date('Y-m-d H:i:s'),
@@ -126,10 +139,11 @@ class AccountController {
                     'fromIBAN' => $account->iban,
                     'fromName' => '',
                     'toName' => '', 
-                    'amount' => $amount,
+                    'amount' => $remAmount,
                     'curr' => 'Eur'
                 ];
                 (new TransactionController)->new($transaction);
+                Message::get()->set('green', 'Successfully withdrawed ' . $remAmount . ' Eur from ' . $account->iban);
 
             }
         }else{
@@ -143,7 +157,7 @@ class AccountController {
     public function userAccountsAmount($userID){
         $reader = new FileBase('accounts');
         $accounts = $reader->showAll();
-        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] === $userID);
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         $amount = 0;
         foreach ($accounts as $acc) {
             $amount += $acc['amount'];    
@@ -154,19 +168,21 @@ class AccountController {
     public function userAccountsCount($userID){
         $reader = new FileBase('accounts');
         $accounts = $reader->showAll();
-        $accounts = array_filter($accounts, fn($acc) => $acc->uid === $userID);
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         return count($accounts);
     }
 
     public function deleteAccountsByUID($userID){
         $reader = new FileBase('accounts');
         $accounts = $reader->showAll();
-        $accounts = array_filter($accounts, fn($acc) => $acc->uid === $userID);
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         $writer = new FileBase('accounts');
         foreach ($accounts as $acc) {
-            $writer->delete($acc->id);
+            $writer->delete($acc['id']);
         }
+        return $accounts;
     }
+
 
     public function viewTransactions($accountID){
 

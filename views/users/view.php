@@ -12,7 +12,6 @@
 <p><a href="<?= URL ?>/users/edit/<?= $user->id ?>">Edit data</a> <a href="<?= URL ?>/users/editpw/<?= $user->id ?>">Change password</a> <a href="<?= URL ?>/users/delete/<?= $user->id ?>">Delete user</a></p></div>
 </div>
 <div class="details-head">Money accounts</div>
-<h2>Under construction</h2>
 <?php
 $i = 0;
     foreach ($accounts as $account) {
