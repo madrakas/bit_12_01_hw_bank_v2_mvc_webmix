@@ -12,7 +12,6 @@ class TransactionController {
     public function showAccSent($accountID){
         $reader =  new FileBase('transactions');
         $transactions = $reader->showAll();
-        // return $transactions;
         return array_filter($transactions, fn($trans) => $trans['from'] == $accountID );
     }
 

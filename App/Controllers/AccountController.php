@@ -25,6 +25,7 @@ class AccountController {
             'amount' => 0,
             'currency' => 'Eur'
         ]);
+        Message::get()->set('green', 'Account created Successfully');
         App::redirect('users/view/' . $userID);
     }
 
@@ -54,8 +55,8 @@ class AccountController {
         if ($account->amount !== 0){
             $uid = $account->uid;
             $err = 'Cannot delete. Account not empty';
-            echo $err;
-            // App::redirect('users/view/' . $uid);
+            Message::get()->set('red', $err);
+            App::redirect('users/view/' . $uid);
         }else{
             return App::view('accounts/delete', [
                 'account' => $account
@@ -70,10 +71,12 @@ class AccountController {
         $userID = $account->uid;
         if ($account->amount !== 0){
             $err = 'Cannot delete. Account not empty';
+            Message::get()->set('red', $err);
             App::redirect('users/view/' . $uid);
         }
         $writer = new FileBase('accounts');
         $writer->delete($accountID);
+        Message::get()->set('green', 'Account deleted Successfully');
         App::redirect('users/view/' . $userID);
     }
 
@@ -144,12 +147,10 @@ class AccountController {
                 ];
                 (new TransactionController)->new($transaction);
                 Message::get()->set('green', 'Successfully withdrawed ' . $remAmount . ' Eur from ' . $account->iban);
-
             }
         }else{
             Message::get()->set('red', $err);
         }
-        
         App::redirect('users/view/' . $userID);
     }
 
@@ -180,8 +181,7 @@ class AccountController {
         foreach ($accounts as $acc) {
             $writer->delete($acc['id']);
         }
-        return $accounts;
-    }
+      }
 
 
     public function viewTransactions($accountID){
