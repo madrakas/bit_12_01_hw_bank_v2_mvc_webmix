@@ -6,6 +6,7 @@ use Bank\App\Controllers\HomeController;
 use Bank\App\Controllers\UserController;
 use Bank\App\Controllers\AccountController;
 use Bank\App\Controllers\LoginController;
+use Bank\App\Controllers\TransactionController;
 use Bank\App\Message;
 use Bank\App\Auth;
 
@@ -134,6 +135,13 @@ class App{
             return(new LoginController)->viewLogs();
         }
 
+        if ($url[0] == 'transactions' && Auth::get()->getStatus() !==1) {
+            return self::redirect('');
+        }
+
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'transactions' && $url[1] === 'all'){
+            return(new TransactionController)->viewLogs();
+        }
 
         return '<h1>404</h1>';
     }

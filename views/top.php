@@ -49,8 +49,8 @@
                 <strong>Admin menu</strong>
                 <hr/>
                 <li><a href="<?= URL ?>/users">Show users</a></li>    
-                <li><a href="<?= URL ?>/transactions">View transactions</a></li>    
-                <li><a href="<?= URL ?>/logins">View logins</a></li>    
+                <li><a href="<?= URL ?>/transactions/all">View transactions</a></li>    
+                <li><a href="<?= URL ?>/logins/all">View logins</a></li>    
                 <strong>User menu</strong><hr/>
                 <?php } ?>
                 <li><a href="#">My money accounts</a></li>
