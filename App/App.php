@@ -126,6 +126,15 @@ class App{
             return (new AccountController)->updateamount($_POST);
         }
 
+        if ($url[0] == 'logins' && Auth::get()->getStatus() !==1) {
+            return self::redirect('');
+        }
+
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'logins' && $url[1] === 'all'){
+            return(new LoginController)->viewLogs();
+        }
+
+
         return '<h1>404</h1>';
     }
 

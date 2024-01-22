@@ -47,4 +47,25 @@ class LoginController {
         return App::redirect('login');
     }
 
+    public function viewLogs(){
+        $logins =(new FileBase('logins'))->showAll();
+        $users =(new FileBase('users'))->showAll();
+        foreach ($logins as $key => $login) {
+            $userID= $logins[$key]['user'];
+            $user = array_filter($users, fn($user) => $user['id'] === $userID);
+            if (count($user) > 0){
+                $fname = $user[0]['firstname'];
+                $lname = $user[0]['lastname'];
+            } else {
+                $fname = 'unknown';
+                $lname = 'unknown';
+            }
+            $logins[$key]['fname'] = $fname;
+            $logins[$key]['lname'] = $lname;
+        }
+        return App::view('logins/all', [
+            'logins' => $logins
+        ]);
+    }
+
 }
