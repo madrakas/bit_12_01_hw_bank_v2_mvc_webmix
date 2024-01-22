@@ -22,11 +22,22 @@ class TransactionController {
         return array_filter($transactions, fn($trans) => $trans['to'] == $accountID );
     }
 
-
     public function viewLogs(){
         $transactions = (new FileBase('transactions'))->showAll();
         return App::view('transactions/all', [
             'transactions' => $transactions
         ]);
     }
+
+    // public function viewUserLogs($userID){
+    //     $transactions = (new FileBase('transactions'))->showAll();
+    //     $transactionsFrom = array_filter($transactions, fn($transaction) => $transaction['from'] === $userID);
+    //     return App::view('transactions/all', [
+    //         'transactions' => $transactions
+    //     ]);
+    // }
+
+ 
 }
+
+
