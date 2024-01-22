@@ -2,7 +2,7 @@
 
 namespace Bank\App\DB;
 
-use Bank\App\DB\DataBase;
+use \App\DB\DataBase;
 
 class FileBase implements DataBase
 {

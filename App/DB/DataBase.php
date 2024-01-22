@@ -1,6 +1,5 @@
 <?php
-namespace Bank\App\DB;
-
+namespace App\DB;
 
 interface DataBase
 {

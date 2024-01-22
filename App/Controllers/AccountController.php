@@ -14,6 +14,12 @@ class AccountController {
         ]);
     }
 
+    public function createByUser ($userID) {
+        return App::view('user/createaccount', [
+            'uid' => $userID
+        ]);
+    }
+
     public function store ($request) {
         $userID = $request['uid'];
         $writer = new FileBase('accounts');
@@ -29,6 +35,19 @@ class AccountController {
         App::redirect('users/view/' . $userID);
     }
 
+    public function storeByUser ($userID) {
+        $writer = new FileBase('accounts');
+        $accountID = $writer->nextID();
+        $iban = 'LT' . rand(0, 9) . rand(0, 9) . '99999' . str_pad($accountID, 10, '0', STR_PAD_LEFT);
+        $writer->create((object)[
+            'uid' => intval($userID),
+            'iban' => $iban,
+            'amount' => 0,
+            'currency' => 'Eur'
+        ]);
+        Message::get()->set('green', 'Account created Successfully');
+        App::redirect('user/accounts');
+    }
 
     public function store2 ($userID) {
         $writer = new FileBase('accounts');

@@ -151,6 +151,14 @@ class App{
             return(new AccountController)->viewByUser(Auth::get()->getStatus());
         }
 
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'addaccount'){
+            return(new AccountController)->createByUser(Auth::get()->getStatus());
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'storeaccount'){
+            return (new AccountController)->storeByUser(Auth::get()->getStatus());
+        }
+
         return '<h1>404</h1>';
     }
 
