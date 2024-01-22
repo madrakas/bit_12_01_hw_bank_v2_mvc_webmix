@@ -143,6 +143,14 @@ class App{
             return(new TransactionController)->viewLogs();
         }
 
+        if ($url[0] == 'user' && !Auth::get()->getStatus()) {
+            return self::redirect('');
+        }    
+        
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'accounts'){
+            return(new AccountController)->viewByUser(Auth::get()->getStatus());
+        }
+
         return '<h1>404</h1>';
     }
 

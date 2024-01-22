@@ -49,6 +49,15 @@ class AccountController {
         return $accounts;
     }
 
+    public function viewByUser($userID){
+        $reader = new FileBase('accounts');
+        $accounts = $reader->showAll();
+        $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
+        return App::view('user/accounts', [
+            'accounts' => $accounts
+        ]);
+    }
+
     public function delete($accountID){
         $reader = new FileBase('accounts');
         $account = $reader->show($accountID);
