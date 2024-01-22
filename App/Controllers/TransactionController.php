@@ -1,5 +1,6 @@
 <?php
 namespace Bank\App\Controllers;
+use Bank\App\App;
 use Bank\App\DB\FileBase;
 
 class TransactionController {
@@ -20,8 +21,12 @@ class TransactionController {
         $transactions = $reader->showAll();
         return array_filter($transactions, fn($trans) => $trans['to'] == $accountID );
     }
+
+
+    public function viewLogs(){
+        $transactions = (new FileBase('transactions'))->showAll();
+        return App::view('transactions/all', [
+            'transactions' => $transactions
+        ]);
+    }
 }
-
-
-
-
