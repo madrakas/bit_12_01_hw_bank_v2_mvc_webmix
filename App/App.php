@@ -159,6 +159,14 @@ class App{
             return (new AccountController)->storeByUser(Auth::get()->getStatus());
         }
 
+        if ('GET' === $method && count($url) === 3 && $url[0] === 'user' && $url[1] === 'deleteaccount'){
+            return(new AccountController)->deleteByUser(Auth::get()->getStatus(), $url[2]);
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'destroyaccount'){
+            return (new AccountController)->destroyByUser(Auth::get()->getStatus(), $_POST);
+        }
+
         return '<h1>404</h1>';
     }
 
