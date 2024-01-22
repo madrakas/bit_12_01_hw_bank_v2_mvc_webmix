@@ -92,6 +92,27 @@ class AccountController {
         }
     }
 
+    public function deleteByUser($userID, $accountID){
+        $reader = new FileBase('accounts');
+        $account = $reader->show($accountID);
+        if ($account->uid !== $userID){
+            Message::get()->set('red', 'Account not found');
+            App::redirect('user/accounts');
+            die;
+        }
+        if ($account->amount !== 0){
+            $uid = $account->uid;
+            $err = 'Cannot delete. Account not empty';
+            Message::get()->set('red', $err);
+            App::redirect('users/accounts/' . $uid);
+            die;
+        }else{
+            return App::view('user/deleteaccount', [
+                'account' => $account
+            ]);
+        }
+    }
+
     public function destroy($request){
         $accountID = $request['accountID'];
         $reader = new FileBase('accounts');
@@ -106,6 +127,29 @@ class AccountController {
         $writer->delete($accountID);
         Message::get()->set('green', 'Account deleted Successfully');
         App::redirect('users/view/' . $userID);
+    }
+
+
+    public function destroyByUser($userID, $request){
+        $accountID = $request['accountID'];
+        $reader = new FileBase('accounts');
+        $account = $reader->show($accountID);
+
+        if ($account->uid !== $userID){
+            Message::get()->set('red', 'Account not found');
+            App::redirect('user/accounts');
+            die;
+        }
+        
+        $userID = $account->uid;
+        if ($account->amount !== 0){
+            Message::get()->set('red', 'Cannot delete. Account not empty');
+            App::redirect('user/accounts');
+        }
+        $writer = new FileBase('accounts');
+        $writer->delete($accountID);
+        Message::get()->set('green', 'Account deleted Successfully');
+        App::redirect('user/accounts');
     }
 
     public function addfunds($accountID){
