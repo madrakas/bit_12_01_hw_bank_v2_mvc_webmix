@@ -241,6 +241,35 @@ class UserController {
         App::redirect('user/viewprofile');
     }
 
+    public function deleteByUser() {
+        return App::view('user/delete');
+    }
+
+    public function destroyByUser($userID){
+        //validate accounts
+        $err='';
+        $accounts = (new AccountController)->userAccountsAmount($userID);
+        if ($accounts !== 0){
+            $err = "To delete user all acounts balance must be 0";
+        }
+        if ($err !==''){
+            Message::get()->set('red', $err);
+            App::redirect('users/view/' . $userID);
+            die;
+        }
+
+        //delete accounts
+        (new AccountController)->deleteAccountsByUID($userID);
+     
+        //delete user
+        $writer = new FileBase('users');
+        $writer->delete($userID);
+        Message::get()->set('green', 'Profile deleted successfully.');
+        $_SESSION['login'] = 0;
+        $_SESSION['user'] = '';
+        App::redirect('');
+    }
+
     //Validations
     private function validUserData($firstname, $lastname, $ak, $email, $pw1, $pw2) : string
     {
