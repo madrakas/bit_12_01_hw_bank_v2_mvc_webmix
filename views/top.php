@@ -55,7 +55,7 @@
                 <?php } ?>
                 <li><a href="<?= URL ?>/user/accounts">My money accounts</a></li>
                 <li><a href="<?= URL ?>/user/newtransaction">Make a transaction</a></li>
-                <li><a href="#">Transactions history</a></li>
+                <li><a href="<?= URL ?>/user/viewtransactions">Transactions history</a></li>
                 <li><a href="#">User data</a></li>
         </ul>
     </div>

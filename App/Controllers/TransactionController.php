@@ -100,6 +100,23 @@ class TransactionController {
         App::redirect('user/accounts');
     }
 
+    public function viewByUser($userID){
+        $accounts = (new FileBase('accounts'))->showAll();
+        $accounts = array_filter($accounts, fn($account) => $account['uid'] === $userID);
+        $ibans = [];
+        foreach($accounts as $acc){
+            array_push($ibans, $acc['iban']);
+        }
+        $transactions =  (new FileBase('transactions'))->showAll();
+        $transactions = array_filter($transactions, fn($trans) => in_array($trans['fromIBAN'], $ibans) || in_array($trans['toIBAN'], $ibans));
+        
+        return App::view('transactions/my', [
+            'accounts' => $accounts,
+            'transactions' => $transactions,
+            'ibans' => $ibans
+        ]);
+    }
+
     public function showAccSent($accountID){
         $reader =  new FileBase('transactions');
         $transactions = $reader->showAll();
