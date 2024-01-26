@@ -8,4 +8,4 @@
 <h2>Change your data</h2>
     <p><a href="<?= URL ?>/user/editprofile">Edit personal information</a></p>
     <p><a href="<?= URL ?>/user/changepw">Change password</a></p>
-    <p><a href="<?= URL ?>/user/delprofile">Close acount</a></p>
+    <p><a href="<?= URL ?>/user/delete">Close acount</a></p>

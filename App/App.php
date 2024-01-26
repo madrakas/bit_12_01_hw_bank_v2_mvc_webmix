@@ -45,17 +45,17 @@ class App{
         if ('GET' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'create'){
             return(new UserController)->create();
         }
-
+        
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'store'){
+            return (new UserController)->store($_POST);
+        }
+        
         if ($url[0] == 'users' && Auth::get()->getStatus() !==1) {
             return self::redirect('');
         }
 
         if ('GET' === $method && count($url) === 1 && $url[0] === 'users'){
             return(new UserController)->index();
-        }
-
-        if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'store'){
-            return (new UserController)->store($_POST);
         }
 
         if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'view'){
@@ -198,7 +198,13 @@ class App{
             return (new UserController)->updatepwByUser(Auth::get()->getStatus(), $_POST);
         }
 
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'delete'){
+            return (new UserController)->deleteByUser();
+        }
 
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'destroy'){
+            return (new UserController)->destroyByUser(Auth::get()->getStatus(), $_POST);
+        }
 
         return '<h1>404</h1>';
     }
