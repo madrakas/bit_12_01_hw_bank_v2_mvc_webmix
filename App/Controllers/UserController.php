@@ -195,6 +195,11 @@ class UserController {
         App::redirect('users');
     }
 
+
+    public function viewProfileByUser($userID){
+        $user = (new FileBase('users'))->show($userID);
+        return App::view('user/viewprofile', ['user' => $user]);
+    }
     
     //Validations
     private function validUserData($firstname, $lastname, $ak, $email, $pw1, $pw2) : string

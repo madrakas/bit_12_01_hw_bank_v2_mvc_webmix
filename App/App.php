@@ -167,16 +167,19 @@ class App{
         }
 
         if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'newtransaction'){
-            return (new transactionController)->createByUser(Auth::get()->getStatus());
+            return (new TransactionController)->createByUser(Auth::get()->getStatus());
         }
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'storetransaction'){
-            return (new transactionController)->storeByUser(Auth::get()->getStatus(), $_POST);
+            return (new TransactionController)->storeByUser(Auth::get()->getStatus(), $_POST);
         }
 
-        
         if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'viewtransactions'){
-            return (new transactionController)->viewByUser(Auth::get()->getStatus());
+            return (new TransactionController)->viewByUser(Auth::get()->getStatus());
+        }
+
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'viewprofile'){
+            return (new UserController)->viewprofileByUser(Auth::get()->getStatus());
         }
 
         return '<h1>404</h1>';
