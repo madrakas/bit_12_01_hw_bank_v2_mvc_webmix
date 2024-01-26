@@ -50,7 +50,6 @@ class App{
             return self::redirect('');
         }
 
-
         if ('GET' === $method && count($url) === 1 && $url[0] === 'users'){
             return(new UserController)->index();
         }
@@ -173,6 +172,11 @@ class App{
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'storetransaction'){
             return (new transactionController)->storeByUser(Auth::get()->getStatus(), $_POST);
+        }
+
+        
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'viewtransactions'){
+            return (new transactionController)->viewByUser(Auth::get()->getStatus());
         }
 
         return '<h1>404</h1>';
