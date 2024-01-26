@@ -221,6 +221,26 @@ class UserController {
         App::redirect('user/viewprofile');
     }
     
+    public function changepwByUser() {
+        return App::view('user/changepw', []);
+    }
+
+    public function updatepwByUser($userID, $request) {
+        $pw1 = $request['pw1'];
+        $pw2 = $request['pw2'];
+        if ($pw1 !== $pw2) 
+        {
+            Message::get()->set('red', 'Paswords do not match.');
+            App::redirect('user/changepw');
+            die;
+        }
+        $user = (new FileBase('users'))->show($userID);
+        $user->pw = sha1($pw1);
+        (new FileBase('users'))->update($userID, $user);
+        Message::get()->set('green', 'Password changed successfully');
+        App::redirect('user/viewprofile');
+    }
+
     //Validations
     private function validUserData($firstname, $lastname, $ak, $email, $pw1, $pw2) : string
     {

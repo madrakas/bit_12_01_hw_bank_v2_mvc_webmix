@@ -185,9 +185,17 @@ class App{
         if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'editprofile'){
             return (new UserController)->editProfileByUser(Auth::get()->getStatus());
         }
-
+        
         if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'updateprofile'){
             return (new UserController)->updateProfileByUser(Auth::get()->getStatus(), $_POST);
+        }
+        
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'changepw'){
+            return (new UserController)->changepwByUser();
+        }
+        
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'updatepw'){
+            return (new UserController)->updatepwByUser(Auth::get()->getStatus(), $_POST);
         }
 
 
