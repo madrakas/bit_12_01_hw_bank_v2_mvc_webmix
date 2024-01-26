@@ -179,8 +179,18 @@ class App{
         }
 
         if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'viewprofile'){
-            return (new UserController)->viewprofileByUser(Auth::get()->getStatus());
+            return (new UserController)->viewProfileByUser(Auth::get()->getStatus());
         }
+        
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'editprofile'){
+            return (new UserController)->editProfileByUser(Auth::get()->getStatus());
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'updateprofile'){
+            return (new UserController)->updateProfileByUser(Auth::get()->getStatus(), $_POST);
+        }
+
+
 
         return '<h1>404</h1>';
     }

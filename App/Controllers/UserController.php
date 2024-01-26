@@ -200,6 +200,26 @@ class UserController {
         $user = (new FileBase('users'))->show($userID);
         return App::view('user/viewprofile', ['user' => $user]);
     }
+
+
+    public function editProfileByUser($userID){
+        $user = (new FileBase('users'))->show($userID);
+        return App::view('user/editprofile', ['user' => $user]);
+    }
+
+    public function updateProfileByUser($userID, $request){
+        $user = (object)[
+            'id' => $userID,
+            'firstname' => $request['firstname'],
+            'lastname' => $request['lastname'],
+            'ak' => $request['ak'],
+            'email' => $request['email']
+        ];
+        $writer = (new FileBase('users'));
+        $writer->update($userID, $user);
+        Message::get()->set('green', 'Profile updated successfully');
+        App::redirect('user/viewprofile');
+    }
     
     //Validations
     private function validUserData($firstname, $lastname, $ak, $email, $pw1, $pw2) : string
