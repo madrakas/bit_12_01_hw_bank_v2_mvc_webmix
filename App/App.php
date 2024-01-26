@@ -42,6 +42,10 @@ class App{
             return(new HomeController)->index($url[1]);
         }
 
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'create'){
+            return(new UserController)->create();
+        }
+
         if ($url[0] == 'users' && Auth::get()->getStatus() !==1) {
             return self::redirect('');
         }
@@ -49,10 +53,6 @@ class App{
 
         if ('GET' === $method && count($url) === 1 && $url[0] === 'users'){
             return(new UserController)->index();
-        }
-
-        if ('GET' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'create'){
-            return(new UserController)->create();
         }
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'users' && $url[1] === 'store'){
@@ -164,7 +164,15 @@ class App{
         }
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'destroyaccount'){
-            return (new AccountController)->destroyByUser(Auth::get()->getStatus(), $_POST);
+            return(new AccountController)->destroyByUser(Auth::get()->getStatus(), $_POST);
+        }
+
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'newtransaction'){
+            return (new transactionController)->createByUser(Auth::get()->getStatus());
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'storetransaction'){
+            return (new transactionController)->storeByUser(Auth::get()->getStatus(), $_POST);
         }
 
         return '<h1>404</h1>';

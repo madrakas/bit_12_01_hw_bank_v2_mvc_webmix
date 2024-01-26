@@ -104,7 +104,7 @@ class AccountController {
             $uid = $account->uid;
             $err = 'Cannot delete. Account not empty';
             Message::get()->set('red', $err);
-            App::redirect('users/accounts/' . $uid);
+            App::redirect('user/accounts');
             die;
         }else{
             return App::view('user/deleteaccount', [
