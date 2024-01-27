@@ -80,18 +80,18 @@ class FileBase implements DataBase
         return $arr;
     }
 
-    public function count($fieldName, $needle) : int
-    {
-        $this->save = false;
-        $arr = json_decode(json_encode ( $this->data ) , true);
-        $arr = array_filter($arr, fn($a) => $a[$fieldName] === $needle);
-        return count($arr);
+    // public function count($fieldName, $needle) : int
+    // {
+    //     $this->save = false;
+    //     $arr = json_decode(json_encode ( $this->data ) , true);
+    //     $arr = array_filter($arr, fn($a) => $a[$fieldName] === $needle);
+    //     return count($arr);
         
-    }
+    // }
 
-    public function nextID(){
-        return $this->index;
-    }
+    // public function nextID(){
+    //     return $this->index;
+    // }
 
 
 
