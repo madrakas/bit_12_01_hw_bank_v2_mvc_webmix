@@ -52,7 +52,7 @@ class LoginController {
         $users =(new FileBase('users'))->showAll();
         foreach ($logins as $key => $login) {
             $userID= $logins[$key]['user'];
-            $user = array_filter($users, fn($user) => $user['id'] === $userID);
+            $user = array_values(array_filter($users, fn($user) => $user['id'] === $userID));
             if (count($user) > 0){
                 $fname = $user[0]['firstname'];
                 $lname = $user[0]['lastname'];
