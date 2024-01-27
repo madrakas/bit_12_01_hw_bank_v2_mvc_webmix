@@ -2,14 +2,14 @@
 
 namespace Bank\App\Controllers;
 use Bank\App\App;
-use Bank\App\DB\FileBase;
+use Bank\App\DB\AnyBase;
 use Bank\App\Controllers\AccountControler;
 use Bank\App\Message;
 
 class UserController {
     
     public function index(){
-        $reader = new Filebase('users');
+        $reader = new AnyBase('users');
         $users = $reader->showAll();
         return App::view('users/index', [
             'users' => $users
@@ -39,7 +39,7 @@ class UserController {
         }
 
         //Create user
-        $writer = new FileBase('users');
+        $writer = new AnyBase('users');
         $userID = $writer->create((object) [
             'firstname' => $firstname,
             'lastname' => $lastname,
@@ -55,7 +55,7 @@ class UserController {
     }
 
     public function view($userID){
-        $reader = new FileBase('users');
+        $reader = new AnyBase('users');
         $user = $reader->show($userID);
         $reader = new AccountController;
         $accounts = $reader->view($userID);
@@ -66,10 +66,10 @@ class UserController {
     }
 
     public function logins($userID){
-        $reader = new FileBase('logins');
+        $reader = new AnyBase('logins');
         $logins = $reader->showAll();
         $logins = array_filter($logins, fn($login) => $login['user'] == $userID);
-        $reader = new FileBase('users');
+        $reader = new AnyBase('users');
         $user = $reader->show($userID);
         return App::view('users/logins', [
             'user' => $user,
@@ -79,7 +79,7 @@ class UserController {
     }
 
     public function edit($userID){
-        $reader = new FileBase('users');
+        $reader = new AnyBase('users');
         $user = $reader->show($userID);
         return App::view('users/edit', [
             'user' => $user
@@ -114,10 +114,10 @@ class UserController {
             die;
         }
 
-        $reader = new FileBase('users');
+        $reader = new AnyBase('users');
         $user = $reader->show($userID);
         $user->pw = sha1($pw1);
-        $writer = new FileBase('users');
+        $writer = new AnyBase('users');
         $writer->update($userID, $user);
         Message::get()->set('green', 'Password updated successfully.');
         App::redirect('users/view/' . $userID);
@@ -138,13 +138,13 @@ class UserController {
             die;
         }
 
-        $reader = new FileBase('users');
+        $reader = new AnyBase('users');
         $user = $reader->show($userID);
         $user->firstname = $firstname;
         $user->lastname = $lastname;
         $user->ak = $ak;
         $user->email = $email;
-        $writer = new FileBase('users');
+        $writer = new AnyBase('users');
         $writer->update($userID, $user);
         Message::get()->set('green', 'User updated successfully');
          App::redirect('users/view/' . $userID);
@@ -162,7 +162,7 @@ class UserController {
             App::redirect('users/view/' . $userID);
             die;
         }
-        $reader = new FileBase('users');
+        $reader = new AnyBase('users');
         $user = $reader->show($userID);
         
         return App::view('users/delete', [
@@ -189,7 +189,7 @@ class UserController {
         (new AccountController)->deleteAccountsByUID($userID);
      
         //delete user
-        $writer = new FileBase('users');
+        $writer = new AnyBase('users');
         $writer->delete($userID);
         Message::get()->set('green', 'Account deleted successfully.');
         App::redirect('users');
@@ -197,13 +197,13 @@ class UserController {
 
 
     public function viewProfileByUser($userID){
-        $user = (new FileBase('users'))->show($userID);
+        $user = (new AnyBase('users'))->show($userID);
         return App::view('user/viewprofile', ['user' => $user]);
     }
 
 
     public function editProfileByUser($userID){
-        $user = (new FileBase('users'))->show($userID);
+        $user = (new AnyBase('users'))->show($userID);
         return App::view('user/editprofile', ['user' => $user]);
     }
 
@@ -215,7 +215,7 @@ class UserController {
             'ak' => $request['ak'],
             'email' => $request['email']
         ];
-        $writer = (new FileBase('users'));
+        $writer = (new AnyBase('users'));
         $writer->update($userID, $user);
         Message::get()->set('green', 'Profile updated successfully');
         App::redirect('user/viewprofile');
@@ -234,9 +234,9 @@ class UserController {
             App::redirect('user/changepw');
             die;
         }
-        $user = (new FileBase('users'))->show($userID);
+        $user = (new AnyBase('users'))->show($userID);
         $user->pw = sha1($pw1);
-        (new FileBase('users'))->update($userID, $user);
+        (new AnyBase('users'))->update($userID, $user);
         Message::get()->set('green', 'Password changed successfully');
         App::redirect('user/viewprofile');
     }
@@ -262,7 +262,7 @@ class UserController {
         (new AccountController)->deleteAccountsByUID($userID);
      
         //delete user
-        $writer = new FileBase('users');
+        $writer = new AnyBase('users');
         $writer->delete($userID);
         Message::get()->set('green', 'Profile deleted successfully.');
         $_SESSION['login'] = 0;
@@ -290,14 +290,12 @@ class UserController {
         } elseif (strlen($lastname) < 4){
             $err .= 'Last name must be 4 letters or longer';
         }
-    
         return $err;
     }
 
     private function validUserData2($firstname, $lastname, $ak, $email) : string
     {
         $err = '';
-
         if ($firstname === '' || $lastname === '' || $ak === '' || $email === ''){
             $err .= 'All fields are required.<br/>';
         } elseif(!$this->validPersonalCode($ak)){
@@ -307,7 +305,6 @@ class UserController {
         } elseif (strlen($lastname) < 4){
             $err .= 'Last name must be 4 letters or longer';
         }
-    
         return $err;
     }
 
@@ -334,7 +331,7 @@ class UserController {
     }
 
     private function emailExists($email) : bool{
-        $counter = new FileBase('users');
+        $counter = new AnyBase('users');
         $count = $counter-> count('email', $email);
         if ($count > 0){
             return true;
@@ -343,7 +340,7 @@ class UserController {
     }
 
     private function akExists($ak) : bool{
-        $counter = new FileBase('users');
+        $counter = new AnyBase('users');
         $count = $counter-> count('ak', $ak);
         if ($count > 0){
             return true;

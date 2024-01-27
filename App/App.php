@@ -9,6 +9,7 @@ use Bank\App\Controllers\LoginController;
 use Bank\App\Controllers\TransactionController;
 use Bank\App\Message;
 use Bank\App\Auth;
+use Bank\App\SwitchDB;
 
 class App{
 
@@ -88,6 +89,18 @@ class App{
 
         if ('GET' === $method && count($url) === 3 && $url[0] === 'users' && $url[1] === 'logins'){
             return(new UserController)->logins($url[2]);
+        }
+
+        if ($url[0] == 'database' && Auth::get()->getStatus() !==1) {
+            return self::redirect('');
+        }
+
+        if ('GET' === $method && count($url) === 2 && $url[0] === 'database' && $url[1] === 'utilities'){
+            return SwitchDB::get()->changeInit();
+        }
+
+        if ('POST' === $method && count($url) === 2 && $url[0] === 'database' && $url[1] === 'switch'){
+            return SwitchDB::get()->changeDB($_POST['database']);
         }
 
         if ($url[0] == 'accounts' && Auth::get()->getStatus() !==1) {

@@ -4,7 +4,7 @@ namespace Bank\App\DB;
 use App\DB\DataBase;
 use PDO;
 
-class Mariabase implements DataBase
+class MariaBase implements DataBase
 {
     private $pdo, $table;
 
@@ -26,7 +26,6 @@ class Mariabase implements DataBase
         $this->table = $table;
     }
 
-
     public function create(object $data) : int{
 
         $keys = array_keys((array)$data);
@@ -40,13 +39,8 @@ class Mariabase implements DataBase
             VALUES (" . $placeholder . ")
         ";
 
-echo $sql;
-print_r($values);
-
         $stmt = $this->pdo->prepare($sql);
-
         $stmt->execute($values);
-
         return $this->pdo->lastInsertId();
     }
 
@@ -66,7 +60,6 @@ print_r($values);
         ";
 
         $stmt = $this->pdo->prepare($sql);
-
         return $stmt->execute($values);
     }
 
@@ -78,7 +71,6 @@ print_r($values);
         ";
 
         $stmt = $this->pdo->prepare($sql);
-
         return $stmt->execute([$id]);
     }
 
@@ -91,9 +83,7 @@ print_r($values);
         ";
 
         $stmt = $this->pdo->prepare($sql);
-
         $stmt->execute([$id]);
-
         return $stmt->fetch();
     }
     
@@ -105,7 +95,6 @@ print_r($values);
         ";
 
         $stmt = $this->pdo->query($sql);
-
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -113,19 +102,10 @@ print_r($values);
     
     public function count($fieldName, $needle) : int
     {
-
         $sql = "SELECT COUNT(id) AS count FROM {$this->table} WHERE ? = ?"; 
-
         $stmt = $this->pdo->prepare($sql);
-
         $stmt->execute([$fieldName, $needle]);
-
         return $stmt->fetchColumn();
-
-        // $this->save = false;
-        // $arr = json_decode(json_encode ( $this->data ) , true);
-        // $arr = array_filter($arr, fn($a) => $a[$fieldName] === $needle);
-        // return count($arr);
     }
 
     public function nextID() : int 

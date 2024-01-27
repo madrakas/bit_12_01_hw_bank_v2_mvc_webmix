@@ -51,6 +51,7 @@
                 <li><a href="<?= URL ?>/users">Show users</a></li>    
                 <li><a href="<?= URL ?>/transactions/all">View transactions</a></li>    
                 <li><a href="<?= URL ?>/logins/all">View logins</a></li>    
+                <li><a href="<?= URL ?>/database/utilities">Database utilities</a></li>    
                 <strong>User menu</strong><hr/>
                 <?php } ?>
                 <li><a href="<?= URL ?>/user/accounts">My money accounts</a></li>
