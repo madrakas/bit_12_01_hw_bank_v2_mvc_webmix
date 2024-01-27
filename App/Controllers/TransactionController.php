@@ -1,20 +1,20 @@
 <?php
 namespace Bank\App\Controllers;
 use Bank\App\App;
-use Bank\App\DB\FileBase;
+use Bank\App\DB\AnyBase;
 use Bank\App\Message;
 
 class TransactionController {
     
     public function new ($transaction) {
-        $writer = new FileBase('transactions');
+        $writer = new AnyBase('transactions');
         return $writer->create($transaction);
     }
 
 
     public function createByUser($userID){
-        $accounts = (new FileBase('accounts'))->showAll();
-        $user = (new FileBase('users'))->show($userID);
+        $accounts = (new AnyBase('accounts'))->showAll();
+        $user = (new AnyBase('users'))->show($userID);
         $sender = $user->firstname . ' ' . $user->lastname;
         $accounts = array_filter($accounts, fn($account) => $account['uid'] === $userID);
         return App::view('user/newtransaction', [
@@ -32,7 +32,7 @@ class TransactionController {
         $acc = intval($acc);
         $samount = intval($samount);
 
-        $account = (new FileBase('accounts'))->show($acc);
+        $account = (new AnyBase('accounts'))->show($acc);
         if ($account->uid !== $userID){
             Message::get()->set('red', 'Account not found'); //Account does not belong to user
             App::redirect('user/accounts');
@@ -47,7 +47,7 @@ class TransactionController {
 
         $bankCode = substr($riban, 4, 5);
         if ($bankCode === '99999'){
-            $accounts = (new FileBase('accounts'))->showAll();
+            $accounts = (new AnyBase('accounts'))->showAll();
             $accounts = array_values(array_filter($accounts, fn($account) => ($account['iban'] ===  $riban))); 
             if (count($accounts) < 1) {
                 Message::get()->set('red', 'Account not found in BIT Bank database');
@@ -58,7 +58,7 @@ class TransactionController {
 
         //reduce account's ammount 
         $account->amount -= $samount;
-        (new FileBase('accounts'))->update($acc, $account);
+        (new AnyBase('accounts'))->update($acc, $account);
 
 
         // //check if recipient's account is in Our bank
@@ -66,9 +66,9 @@ class TransactionController {
         if ($bankCode === '99999'){
 
             $to = $accounts[0]['id'];
-            $raccount = (new FileBase('accounts'))->show($to);
+            $raccount = (new AnyBase('accounts'))->show($to);
             $raccount->amount += $samount; 
-            $writer = new FileBase('accounts');
+            $writer = new AnyBase('accounts');
             $writer->update($to, $raccount);
         }
 
@@ -80,7 +80,7 @@ class TransactionController {
         
         //log transaction
         $fromIBAN = $account->iban;
-        $user = (new FileBase('users'))->show($userID);
+        $user = (new AnyBase('users'))->show($userID);
         $sender = $user->firstname . ' ' . $user->lastname;
         $transaction = (object) [
             'time' => date('Y-m-d H:i:s'),
@@ -94,20 +94,20 @@ class TransactionController {
             'curr' => 'Eur'
         ];
 
-        $writer = new fileBase('transactions');
+        $writer = new AnyBase('transactions');
         $writer->create($transaction);
         Message::get()->set('green', $samount . ' Successfully sent to ' . $riban . '.');
         App::redirect('user/accounts');
     }
 
     public function viewByUser($userID){
-        $accounts = (new FileBase('accounts'))->showAll();
+        $accounts = (new AnyBase('accounts'))->showAll();
         $accounts = array_filter($accounts, fn($account) => $account['uid'] === $userID);
         $ibans = [];
         foreach($accounts as $acc){
             array_push($ibans, $acc['iban']);
         }
-        $transactions =  (new FileBase('transactions'))->showAll();
+        $transactions =  (new AnyBase('transactions'))->showAll();
         $transactions = array_filter($transactions, fn($trans) => in_array($trans['fromIBAN'], $ibans) || in_array($trans['toIBAN'], $ibans));
         
         return App::view('transactions/my', [
@@ -118,26 +118,26 @@ class TransactionController {
     }
 
     public function showAccSent($accountID){
-        $reader =  new FileBase('transactions');
+        $reader =  new AnyBase('transactions');
         $transactions = $reader->showAll();
         return array_filter($transactions, fn($trans) => $trans['from'] == $accountID );
     }
 
     public function showAccReceived($accountID){
-        $reader =  new FileBase('transactions');
+        $reader =  new AnyBase('transactions');
         $transactions = $reader->showAll();
         return array_filter($transactions, fn($trans) => $trans['to'] == $accountID );
     }
 
     public function viewLogs(){
-        $transactions = (new FileBase('transactions'))->showAll();
+        $transactions = (new AnyBase('transactions'))->showAll();
         return App::view('transactions/all', [
             'transactions' => $transactions
         ]);
     }
 
     // public function viewUserLogs($userID){
-    //     $transactions = (new FileBase('transactions'))->showAll();
+    //     $transactions = (new AnyBase('transactions'))->showAll();
     //     $transactionsFrom = array_filter($transactions, fn($transaction) => $transaction['from'] === $userID);
     //     return App::view('transactions/all', [
     //         'transactions' => $transactions

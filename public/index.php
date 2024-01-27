@@ -8,5 +8,6 @@ require '../vendor/autoload.php';
 
 define('ROOT', __DIR__ . '/../');
 define('URL', 'http://bitbank.bit');
-
+// define('DB', 'MariaDB');
+define('DB', 'FileBase');
 echo App::run();

@@ -5,7 +5,7 @@ namespace Bank\App\Controllers;
 use Bank\App\App;
 use Bank\App\Auth;
 use Bank\App\Message;
-use Bank\App\DB\FileBase;
+use Bank\App\DB\AnyBase;
 
 class LoginController {
 
@@ -18,7 +18,7 @@ class LoginController {
         $email = $request['email'] ?? '';
         $password = $request['pw'] ?? '';
         if (Auth::get()->tryLoginUser($email, $password)) {
-            (new FileBase('logins'))->create((object)[
+            (new AnyBase('logins'))->create((object)[
                 'time' => date('Y-m-d H:i:s'),
                 'user' => $_SESSION['user'],
                 'status' => 'Login ok',
@@ -27,7 +27,7 @@ class LoginController {
             return App::redirect('');
         }
         
-        (new FileBase('logins'))->create((object)[
+        (new AnyBase('logins'))->create((object)[
             'time' => date('Y-m-d H:i:s'),
             'user' => Auth::get()->getStatus(),
             'status' => 'Login failed',
@@ -38,7 +38,7 @@ class LoginController {
 
     public function logout() {
         Auth::get()->logout();
-        (new FileBase('logins'))->create((object)[
+        (new AnyBase('logins'))->create((object)[
             'time' => date('Y-m-d H:i:s'),
             'user' => Auth::get()->getStatus(),
             'status' => 'Logout ok',
@@ -48,8 +48,8 @@ class LoginController {
     }
 
     public function viewLogs(){
-        $logins =(new FileBase('logins'))->showAll();
-        $users =(new FileBase('users'))->showAll();
+        $logins =(new AnyBase('logins'))->showAll();
+        $users =(new AnyBase('users'))->showAll();
         foreach ($logins as $key => $login) {
             $userID= $logins[$key]['user'];
             $user = array_values(array_filter($users, fn($user) => $user['id'] === $userID));

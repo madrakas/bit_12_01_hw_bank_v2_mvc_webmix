@@ -2,7 +2,7 @@
 namespace Bank\App\Controllers;
 
 use Bank\App\App;
-use Bank\App\DB\FileBase;
+use Bank\App\DB\AnyBase;
 use Bank\App\Controllers\TransactionController;
 use Bank\App\Message;
 
@@ -22,7 +22,7 @@ class AccountController {
 
     public function store ($request) {
         $userID = $request['uid'];
-        $writer = new FileBase('accounts');
+        $writer = new AnyBase('accounts');
         $accountID = $writer->nextID();
         $iban = 'LT' . rand(0, 9) . rand(0, 9) . '99999' . str_pad($accountID, 10, '0', STR_PAD_LEFT);
         $writer->create((object)[
@@ -36,7 +36,7 @@ class AccountController {
     }
 
     public function storeByUser ($userID) {
-        $writer = new FileBase('accounts');
+        $writer = new AnyBase('accounts');
         $accountID = $writer->nextID();
         $iban = 'LT' . rand(0, 9) . rand(0, 9) . '99999' . str_pad($accountID, 10, '0', STR_PAD_LEFT);
         $writer->create((object)[
@@ -50,7 +50,7 @@ class AccountController {
     }
 
     public function store2 ($userID) {
-        $writer = new FileBase('accounts');
+        $writer = new AnyBase('accounts');
         $accountID = $writer->nextID();
         $iban = 'LT' . rand(0, 9) . rand(0, 9) . '99999' . str_pad($accountID, 10, '0', STR_PAD_LEFT);
         $writer->create((object)[
@@ -62,14 +62,14 @@ class AccountController {
     }
 
     public function view($userID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $accounts = $reader->showAll();
         $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         return $accounts;
     }
 
     public function viewByUser($userID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $accounts = $reader->showAll();
         $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         return App::view('user/accounts', [
@@ -78,7 +78,7 @@ class AccountController {
     }
 
     public function delete($accountID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
         if ($account->amount !== 0){
             $uid = $account->uid;
@@ -93,7 +93,7 @@ class AccountController {
     }
 
     public function deleteByUser($userID, $accountID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
         if ($account->uid !== $userID){
             Message::get()->set('red', 'Account not found');
@@ -115,7 +115,7 @@ class AccountController {
 
     public function destroy($request){
         $accountID = $request['accountID'];
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
         $userID = $account->uid;
         if ($account->amount !== 0){
@@ -123,7 +123,7 @@ class AccountController {
             Message::get()->set('red', $err);
             App::redirect('users/view/' . $uid);
         }
-        $writer = new FileBase('accounts');
+        $writer = new AnyBase('accounts');
         $writer->delete($accountID);
         Message::get()->set('green', 'Account deleted Successfully');
         App::redirect('users/view/' . $userID);
@@ -132,7 +132,7 @@ class AccountController {
 
     public function destroyByUser($userID, $request){
         $accountID = $request['accountID'];
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
 
         if ($account->uid !== $userID){
@@ -146,14 +146,14 @@ class AccountController {
             Message::get()->set('red', 'Cannot delete. Account not empty');
             App::redirect('user/accounts');
         }
-        $writer = new FileBase('accounts');
+        $writer = new AnyBase('accounts');
         $writer->delete($accountID);
         Message::get()->set('green', 'Account deleted Successfully');
         App::redirect('user/accounts');
     }
 
     public function addfunds($accountID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
 
         return App::View('accounts/addfunds', [
@@ -163,7 +163,7 @@ class AccountController {
     }
 
     public function remfunds($accountID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
 
         return App::View('accounts/remfunds', [
@@ -176,7 +176,7 @@ class AccountController {
         $accountID = $request['accountID'];
         $addAmount = $request['addAmount'] ?? 0;
         $remAmount = $request['remAmount'] ?? 0;
-        $reader = new filebase('accounts');
+        $reader = new AnyBase('accounts');
         $account = $reader->show($accountID);
         $userID = $account->uid;
         $err ='';
@@ -187,7 +187,7 @@ class AccountController {
             $account->amount -= $remAmount;
         }
         if ($err ==='') {
-            $writer = new filebase('accounts');
+            $writer = new AnyBase('accounts');
             $writer->update($accountID, $account);
 
             //log transaction 
@@ -228,7 +228,7 @@ class AccountController {
 
 
     public function userAccountsAmount($userID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $accounts = $reader->showAll();
         $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         $amount = 0;
@@ -239,17 +239,17 @@ class AccountController {
     }
 
     public function userAccountsCount($userID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $accounts = $reader->showAll();
         $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
         return count($accounts);
     }
 
     public function deleteAccountsByUID($userID){
-        $reader = new FileBase('accounts');
+        $reader = new AnyBase('accounts');
         $accounts = $reader->showAll();
         $accounts = array_filter($accounts, fn($acc) => $acc['uid'] == $userID);
-        $writer = new FileBase('accounts');
+        $writer = new AnyBase('accounts');
         foreach ($accounts as $acc) {
             $writer->delete($acc['id']);
         }
@@ -260,7 +260,7 @@ class AccountController {
 
         $sent = (new transactionController)->showAccSent($accountID);
         $received = (new transactionController)->showAccReceived($accountID);
-        $account = (new FileBase('accounts'))->show($accountID);
+        $account = (new AnyBase('accounts'))->show($accountID);
 
         return App::view('accounts/transactions', [
             'accountID' => $accountID,

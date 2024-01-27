@@ -2,7 +2,8 @@
 
 namespace Bank\App;
 
-use Bank\App\DB\FileBase;
+// use Bank\App\DB\FileBase;
+use Bank\App\DB\AnyBase;
 
 
 class Auth {
@@ -31,7 +32,7 @@ class Auth {
     }
 
     public function tryLoginUser($email, $password) {
-        $writer = new FileBase('users');
+        $writer = new AnyBase('users');
         $users = $writer->showAll();
         foreach ($users as $user) {
             if ($user['email'] == $email && $user['pw'] == sha1($password)) {
