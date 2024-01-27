@@ -3,7 +3,7 @@
 <?php 
      foreach($logins as $login){
         echo '<div class="detail-row">';
-        echo 'ID ' . $user ->id . ', ' . $user->firstname . ' ' . $user->lastname . ':  ' . $login['time'] . ', ' . $login['status'];
+        echo 'ID ' . $login['user'] . ', ' . $user->firstname . ' ' . $user->lastname . ':  ' . $login['time'] . ', ' . $login['status'];
         echo '</div>';
     }
 ?>
