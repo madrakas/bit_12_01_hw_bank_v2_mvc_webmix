@@ -42,7 +42,7 @@ class SwitchDB {
     }
 
     public function getDB() {
-        return $_SESSION['db'];
+       return $this->db;
     }
 
     public function getAllDBs() {

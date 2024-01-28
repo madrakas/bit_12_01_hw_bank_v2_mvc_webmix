@@ -9,7 +9,11 @@
 <p><strong>Last Name: </strong><?= $user->lastname ?></p>
 <p><strong>Email: </strong><?= $user->email ?></p>
 <p><strong>Personal identificartion code: </strong><?= $user->ak ?></p>
-<p><a href="<?= URL ?>/users/edit/<?= $user->id ?>">Edit data</a> <a href="<?= URL ?>/users/editpw/<?= $user->id ?>">Change password</a> <a href="<?= URL ?>/users/delete/<?= $user->id ?>">Delete user</a></p></div>
+<p><a href="<?= URL ?>/users/edit/<?= $user->id ?>">Edit data</a> <a href="<?= URL ?>/users/editpw/<?= $user->id ?>">Change password</a> 
+<?php if($user->id !== 1) : ?>
+<a href="<?= URL ?>/users/delete/<?= $user->id ?>">Delete user</a>
+<?php endif ?>
+</p></div>
 </div>
 <div class="details-head">Money accounts</div>
 <?php

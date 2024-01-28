@@ -212,7 +212,7 @@ class App{
         }
 
         if ('GET' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'delete'){
-            return (new UserController)->deleteByUser();
+            return (new UserController)->deleteByUser(Auth::get()->getStatus());
         }
 
         if ('POST' === $method && count($url) === 2 && $url[0] === 'user' && $url[1] === 'destroy'){

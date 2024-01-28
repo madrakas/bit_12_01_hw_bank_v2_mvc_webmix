@@ -151,6 +151,11 @@ class UserController {
     }
 
     public function delete($userID){
+        if ($userID == 1){
+            Message::get()->set('red', 'Deletion of this user is forbidden');
+            App::redirect('user/viewprofile');
+            die;
+        }
         //validate accounts
         $accounts = new AccountController;
         $err ='';
@@ -173,10 +178,15 @@ class UserController {
 
     public function destroy($request){
         $userID = $request['userID'];
+        if ($userID == 1){
+            Message::get()->set('red', 'Deletion of this user is forbidden');
+            App::redirect('user/viewprofile');
+            die;
+        }
         //validate accounts
         $err='';
-        $accounts = (new AccountController)->userAccountsAmount($userID);
-        if ($accounts !== 0){
+        $balance = (new AccountController)->userAccountsAmount($userID);
+        if ($balance !== 0){
             $err = "To delete user all acounts balance must be 0";
         }
         if ($err !==''){
@@ -208,13 +218,12 @@ class UserController {
     }
 
     public function updateProfileByUser($userID, $request){
-        $user = (object)[
-            'id' => $userID,
-            'firstname' => $request['firstname'],
-            'lastname' => $request['lastname'],
-            'ak' => $request['ak'],
-            'email' => $request['email']
-        ];
+        $user = (new AnyBase('users'))->show($userID);
+            $user->firstname = $request['firstname'];
+            $user->lastname = $request['lastname'];
+            $user->ak = $request['ak'];
+            $user->email = $request['email'];
+        
         $writer = (new AnyBase('users'));
         $writer->update($userID, $user);
         Message::get()->set('green', 'Profile updated successfully');
@@ -241,11 +250,22 @@ class UserController {
         App::redirect('user/viewprofile');
     }
 
-    public function deleteByUser() {
+    public function deleteByUser($userID) {
+        if ($userID == 1){
+            Message::get()->set('red', 'Deletion of this user is forbidden');
+            App::redirect('user/viewprofile');
+            die;
+        }
         return App::view('user/delete');
     }
 
     public function destroyByUser($userID){
+        if ($userID == 1){
+            Message::get()->set('red', 'Deletion of this user is forbidden');
+            App::redirect('user/viewprofile');
+            die;
+        }
+
         //validate accounts
         $err='';
         $accounts = (new AccountController)->userAccountsAmount($userID);

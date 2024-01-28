@@ -8,4 +8,6 @@
 <h2>Change your data</h2>
     <p><a href="<?= URL ?>/user/editprofile">Edit personal information</a></p>
     <p><a href="<?= URL ?>/user/changepw">Change password</a></p>
+    <?php if ($user->id !== 1) : ?>
     <p><a href="<?= URL ?>/user/delete">Delete profile</a></p>
+    <?php endif ?>
