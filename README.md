@@ -48,7 +48,7 @@ This project is for educational porpuses only. Pull request are welcome, but pri
 
 *  Goals and features:
     * [Webpack](https://laravel-mix.com/)
-    *  [Webpack]()
+    *  MVC
     *  User creation with validations
     *  User authentication
     *  Money accounts with validations
