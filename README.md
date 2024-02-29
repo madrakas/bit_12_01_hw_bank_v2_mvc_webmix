@@ -40,9 +40,9 @@ This project is for educational porpuses only. Pull request are welcome, but pri
     1. [Practice No.1. Bank V1](https://github.com/madrakas/bit_11_01_hw_bank_v1)
 12. [MVC, Webmix](https://github.com/madrakas/bit_12_webmix_oop_php)
     1. Practice No.1. Bank V2 (current repository)
-13. Intro To Laravel
-14. Deeper into Laravel
-    1. Practice No.1. Bank V3
+13. [Intro to Laravel](https://github.com/madrakas/bit_13_intro_to_laravel)
+14. [Deeper into Laravel](https://github.com/madrakas/bit_14_deeper_into_laravel) 
+    [1. Practice No.1. Bank V3](https://github.com/madrakas/bit_14_01_laravel_bank)
 
 ## 🎯 Project features/goals
 
