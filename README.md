@@ -70,10 +70,22 @@ This project is for educational porpuses only. Pull request are welcome, but pri
 
 ### 💻 Prerequisites
 
-Xampp - _download and install_
+xampp - _download and install_
 
 ```
 https://www.apachefriends.org/
+```
+
+Node.js - _download and install_
+
+```
+https://nodejs.org
+```
+
+Composer - _download and install_
+
+```
+https://getcomposer.org/download/
 ```
 
 Git - _download and install_
@@ -81,6 +93,7 @@ Git - _download and install_
 ```
 https://git-scm.com
 ```
+
 ### 🏃 Run locally
 
 Would like to run this project locally? Open terminal and follow these steps:
@@ -89,15 +102,29 @@ Would like to run this project locally? Open terminal and follow these steps:
     ```
     git clone https://github.com/madrakas/bit_11_backend.git
     ```
-2. Run Xampp Apache component
+2. Run Xampp Apache and MySQL components
 
-3. Edit host name in /public/index.php line 13:
-
-```
-define('URL', 'http://bitbank.bit');
-```
-
-4. Open your set url ([http://localhost](http://localhost](http://bitbank.bit)) to view folders in your browser.\
+3. Install NPM packages
+    ```sh
+    npm i
+    ```
+    or
+    ```sh
+    npm install
+    ```
+4. Install composer packages
+    ```sh
+    composer install
+    ```
+5. Run Webpack resource updater
+   ```
+  npm start
+   ```
+6. Change projects URL in /public/index.php
+   ```
+   define('URL', 'http://super-colors.test');
+   ```
+7. Open your URL (default http://super-colors.test) to view folders in your browser.
    
 ### 🧪 Running tests
 
