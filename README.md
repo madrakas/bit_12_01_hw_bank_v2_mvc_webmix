@@ -70,7 +70,7 @@ This project is for educational porpuses only. Pull request are welcome, but pri
 
 ### 💻 Prerequisites
 
-xampp
+Xampp - _download and install_
 
 ```
 https://www.apachefriends.org/
